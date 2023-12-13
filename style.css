@@ -1,0 +1,163 @@
+body{
+    overflow: hidden;
+}
+:root {
+    --joyeux: #043f49;
+    --prof: #138a9d;
+}
+
+.page {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.navbar {
+
+    width: 14%;
+    height: 100%;
+    background-color: var(--joyeux)
+}
+
+.contenuDePage {
+
+    height: 100%;
+    width: 96%;
+}
+
+.filDeDiscussion {
+    width: 100%;
+    height: 92%;
+    overflow-y: scroll;
+    background-color : #ededed ;
+}
+
+.message {
+    box-shadow: lightgrey 15px 0px 15px 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    color: var(--joyeux);
+    font-size: 1em;
+    padding: 20px 27px;
+    position: relative;
+    overflow: hidden;
+    gap: 20px;
+}
+.messageImage{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.messageIc {
+    position: absolute;
+    right: 2%;
+    top: 15%;
+    gap: 20px;
+}
+
+.messageAuteur {
+    font-size: 1.2em;
+
+}
+
+#messageContenu {
+    width: 100%;
+    border: 0;
+    background-color: transparent;
+}
+
+.postMessageContainer{
+    height: 8%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+
+}
+#postmessage{
+    width: 96%;
+    border-radius: 8px;
+    border: 0;
+    height: 100%;
+    outline: none;
+    font-size: 1.2em;
+    padding: 1em;
+}
+.postMessageContainer .bi{
+    font-size: 2.2em;
+    color: var(--joyeux);
+}
+/*=================== FORMULAIRE ===================*/
+
+.loginform, .signupform {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: lightgrey;
+    align-items: center;
+    gap: 30px;
+    height: 100%;
+    color: var(--joyeux);
+}
+
+
+.boutonForm {
+    border: 4px solid var(--joyeux);
+    position: relative;
+    box-shadow: 3px 3px 1px 0px var(--prof);
+}
+
+.loginform input, .signupform input {
+
+    background: transparent;
+    border: solid 2px var(--joyeux);
+    outline: none;
+    padding: 0.5em;
+    border-radius: 8px;
+}
+
+.loginform h1, .signupform h1 {
+
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+#loginFormToSignUp, #signUpToLogin{
+    color: var(--joyeux);
+    font-size: 0.8em;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    text-decoration: underline;
+
+}
+
+/*=================== Discussion ===================*/
+
+@media only screen and (max-width: 800px) {
+    .signupform {
+
+        height: 100%;
+    }
+    .loginform {
+        height: 100%;
+    }
+    /*=== navbar ===*/
+    .navbar{
+        display: none;
+    }
+    .contenuDePage{
+        width: 100%;
+    }
+    .message{
+        padding: 21px 12px;
+    }
+    .messageImage{
+        width: 50px;
+        height: 50px;
+    }
+}
+
