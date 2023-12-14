@@ -67,6 +67,12 @@ body{
     width: 100%;
     border: 0;
     background-color: transparent;
+outline: none;
+    resize: none;
+}
+.borderEdit{
+
+    border: var(--prof) 3px solid !important;
 }
 
 .postMessageContainer{

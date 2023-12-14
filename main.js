@@ -9,17 +9,19 @@ run()
 function run() {
     if (!token) {
         renderForm()
-        addEvent()
+
     } else {
         identifier().then(response => {
                 getMessage().then(response => {
                     renderMessages()
                     scrollY()
+                    addEvent()
                 })
             }
         )
 
     }
+
 }
 
 //==============================RENDER
@@ -57,6 +59,16 @@ function renderForm() {
         register(document.querySelector('#SignupFormUsername'), document.querySelector('#SignupFormPassword'))
 
     })
+
+    let loginform = document.querySelector('.loginform')
+    let signupform = document.querySelector('.signupform')
+
+    document.querySelector('#loginFormToSignUp').addEventListener('click', () => {
+        switchElt(loginform, signupform)
+    })
+    document.querySelector('#signUpToLogin').addEventListener('click', () => {
+        switchElt(loginform, signupform)
+    })
 }
 
 function renderMessages() {
@@ -71,7 +83,8 @@ function renderMessages() {
         </div>
         <div class="postMessageContainer">
             <textarea name="postmessage" placeholder="Write text..." id="postmessage" ></textarea>
-            <div onclick="sendMessage()"><i class="bi bi-send"></i></div>
+            <div class="postmessageBtn"><i class="bi bi-send"></i></div>
+            <div onclick="run()"><i class="bi bi-arrow-clockwise"></i></div>
         </div>
     `
     render(fil)
@@ -95,12 +108,11 @@ function renderMessage(message) {
         dpn = message.author.username
     }
 
-
-    if (user.username === message.author.username) {
+    if (user.id === message.author.id) {
         option = `
-                 <div class="messageIc">
-                    <i class="bi bi-pencil"></i>
-                    <i class="bi bi-trash3"></i>
+                <div class="messageIc" ">
+                     <div><i id="${message.id}" class="bi bi-pencil"></i></div> 
+                    <div><i id="${message.id}" class="bi bi-trash3"></i></div>
                 </div>
     `
         dpn = 'Vous : ' + dpn
@@ -108,33 +120,63 @@ function renderMessage(message) {
 
     let template =
         `
-      <div class="message">
+      <div class="message" id="message${message.id}">
       <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
-      <div>
+      <div class="w-100">
            <h2 class="messageAuteur">${dpn}</h2>
-                <textarea readonly name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                ${option}
+  
+             <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+            <button type="submit" class="d-none boutonForm editmessageSubmit${message.id}"> Modifier </button>
+
+                  ${option}
 
             </div>
-</div>
+</div>  
            
 `
     return template
 }
 
+
 //==============================
+function isEmpty(elt) {
+    return elt === ''
+}
 
 function addEvent() {
 
-    let loginform = document.querySelector('.loginform')
-    let signupform = document.querySelector('.signupform')
-    console.log(loginform, signupform)
-    document.querySelector('#loginFormToSignUp').addEventListener('click', () => {
-        switchElt(loginform, signupform)
+    console.log(document.querySelectorAll('.bi-trash3'))
+    document.querySelectorAll('.bi-trash3').forEach((poubelle) => {
+        poubelle.addEventListener('click', () => {
+            supprimer(poubelle.id)
+        })
+
     })
-    document.querySelector('#signUpToLogin').addEventListener('click', () => {
-        switchElt(loginform, signupform)
-    })
+    document.querySelectorAll('.bi-pencil').forEach((crayon => {
+        crayon.addEventListener('click', () => {
+            const textarea = document.querySelector(`#message${crayon.id} > div>  textarea`)
+            textarea.readOnly = false
+            console.log(textarea)
+      textarea.classList.add('borderEdit')
+            document.querySelector(`.editmessageSubmit${crayon.id}`).classList.toggle('d-none')
+            document.querySelector(`.editmessageSubmit${crayon.id}`).addEventListener('click', () => {
+                editMessage(crayon.id, textarea.value)
+            })
+
+        })
+    }))
+
+    document.querySelector('.postmessageBtn').addEventListener('click', () => {
+            if (!isEmpty(document.querySelector('#postmessage').value)) {
+                postmessage(document.querySelector('#postmessage').value)
+                    .then(response => {
+                        document.querySelector('#postmessage').value = ''
+                    })
+
+            }
+        }
+    )
+
 
 }
 
@@ -201,7 +243,7 @@ async function getMessage() {
         .then(data => {
 
             listeMessage = data
-            console.log(listeMessage)
+
         })
 }
 
@@ -216,8 +258,65 @@ async function identifier() {
     await fetch(`${baseUrl}api/whoami`, param)
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+
             user = data
+        })
+}
+
+async function supprimer(id) {
+    const param = {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `bearer ${token}`
+        }
+    }
+    console.log(id)
+    await fetch(`${baseUrl}api/messages/delete/${id}`, param)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            run()
         })
 
 }
+
+async function postmessage(contenu) {
+    const param = {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `bearer ${token}`
+        },
+        body: JSON.stringify({
+            content: contenu
+        })
+    }
+    await fetch(`${baseUrl}api/messages/new`, param)
+        .then(response => response.json())
+        .then(data => {
+            run()
+        })
+}
+
+async function editMessage(id, contenu) {
+    const param = {
+        method: 'PUT',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `bearer ${token}`
+        },
+        body: JSON.stringify({
+            content: contenu
+        })
+    }
+    await fetch(`${baseUrl}api/messages/${id}/edit`, param)
+        .then(response => response.json())
+        .then(data => {
+            run()
+        })
+}
+
+`
+Uncaught (in promise) TypeError: Failed to execute 'fetch' on 'Window':
+ Request with GET/HEAD method cannot have body.`
