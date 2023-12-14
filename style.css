@@ -31,20 +31,35 @@ body{
     width: 100%;
     height: 92%;
     overflow-y: scroll;
-    background-color : #ededed ;
+    background-color :#cbcbcb ;
+    position: relative;
 }
-
-.message {
-    box-shadow: lightgrey 15px 0px 15px 0px;
+.messageContainer , .messageContainer1 {
     width: 100%;
+   display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+.messageContainer1{
+    justify-content: end;
+}
+.message , .messageReverse {
+    box-shadow: lightgrey 15px 0px 15px 0px;
+    width: 90%;
     display: flex;
     flex-direction: row;
     color: var(--joyeux);
     font-size: 1em;
+    background-color: #e7e7e7;
     padding: 20px 27px;
     position: relative;
     overflow: hidden;
     gap: 20px;
+    border-radius: 0px 60px 60px 0px;
+}
+.messageReverse{
+    border-radius: 60px 0px 0px 60px !important;
+    flex-direction: row-reverse !important;
 }
 .messageImage{
     width: 70px;
@@ -52,10 +67,11 @@ body{
     border-radius: 50%;
 }
 .messageIc {
-    position: absolute;
-    right: 2%;
-    top: 15%;
-    gap: 20px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
 }
 
 .messageAuteur {
@@ -64,7 +80,7 @@ body{
 }
 
 #messageContenu {
-    width: 100%;
+    width: 90%;
     border: 0;
     background-color: transparent;
 outline: none;
@@ -96,6 +112,7 @@ outline: none;
     font-size: 2.2em;
     color: var(--joyeux);
 }
+
 /*=================== FORMULAIRE ===================*/
 
 .loginform, .signupform {

@@ -97,41 +97,55 @@ function renderMessages() {
 }
 
 function renderMessage(message) {
-    let option = `
+    let param = {
+        classe : 'message',
+        container : 'messageContainer',
+        option : `
                  <div class="messageIc">
+           
                    <i class="bi bi-chat-left-heart"></i>
                   <i class="bi bi-chat"></i>
                 </div>
-    `
-    let dpn = message.author.displayName
+    `,
+        dpn : message.author.displayName
+    }
+
     if (!message.author.displayName) {
-        dpn = message.author.username
+        param.dpn = message.author.username
     }
 
     if (user.id === message.author.id) {
-        option = `
+        param.container = 'messageContainer1',
+        param.option = `
                 <div class="messageIc" ">
-                     <div><i id="${message.id}" class="bi bi-pencil"></i></div> 
-                    <div><i id="${message.id}" class="bi bi-trash3"></i></div>
+                     <i id="${message.id}" class="bi bi-pencil"></i>
+                 <i id="${message.id}" class="bi bi-trash3"></i>
                 </div>
     `
-        dpn = 'Vous : ' + dpn
+        param.dpn = 'Vous : ' + param.dpn
+        param.classe = 'messageReverse'
     }
 
     let template =
         `
-      <div class="message" id="message${message.id}">
-      <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
-      <div class="w-100">
-           <h2 class="messageAuteur">${dpn}</h2>
-  
-             <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+<div class="${param.container}">
+     <div class="${param.classe}" id="message${message.id}">
+     <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+         <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
+
+      ${param.option}
+</div>
+       <div class="w-100 h-100">
+          <h2 class="messageAuteur">${param.dpn}</h2> 
+      <div class="w-100 d-flex flex-row align-items-top">
+               <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
             <button type="submit" class="d-none boutonForm editmessageSubmit${message.id}"> Modifier </button>
-
-                  ${option}
-
             </div>
+</div>
+     
 </div>  
+</div>
+ 
            
 `
     return template
@@ -157,7 +171,7 @@ function addEvent() {
             const textarea = document.querySelector(`#message${crayon.id} > div>  textarea`)
             textarea.readOnly = false
             console.log(textarea)
-      textarea.classList.add('borderEdit')
+            textarea.classList.add('borderEdit')
             document.querySelector(`.editmessageSubmit${crayon.id}`).classList.toggle('d-none')
             document.querySelector(`.editmessageSubmit${crayon.id}`).addEventListener('click', () => {
                 editMessage(crayon.id, textarea.value)
