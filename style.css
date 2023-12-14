@@ -13,20 +13,73 @@ body{
     height: 100vh;
 
 }
+.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/*=================== NAVBAR ===================*/
 
 .navbar {
-
+display:  flex;
+    flex-direction: column;
+    padding: 1%;
     width: 14%;
     height: 100%;
-    background-color: var(--joyeux)
+    background-color: var(--joyeux);
+    justify-content: space-between;
 }
+.navbarListePV{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 97%;
+    overflow-y: scroll;
+    height: 90%;
+}
+.navbarListePV> button{
+
+}
+.navbarParamContainer{
+    border-top: var(--prof) 1px solid;
+    width: 80%;
+    padding-top: 17px;
+}
+.navbarParamImage{
+    width: 73px;
+    height: 73px;
+    border-radius: 50%;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: red;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+/*=================== FIL DISCUSSION ===================*/
 
 .contenuDePage {
 
     height: 100%;
     width: 96%;
 }
-
 .filDeDiscussion {
     width: 100%;
     height: 92%;
@@ -44,7 +97,7 @@ body{
     justify-content: end;
 }
 .message , .messageReverse {
-    box-shadow: lightgrey 15px 0px 15px 0px;
+    box-shadow: var(--joyeux) 4px 5px 13px 0px;;
     width: 90%;
     display: flex;
     flex-direction: row;

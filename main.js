@@ -3,6 +3,7 @@ let content = document.querySelector('.contenuDePage')
 let baseUrl = 'https://b1messenger.imatrythis.com/'
 let listeMessage = null
 let user = null
+let navbar = document.querySelector('.navbar')
 
 run()
 
@@ -151,6 +152,11 @@ function renderMessage(message) {
     return template
 }
 
+function renderInterface(){
+    navbar.innerHTML = `
+    
+    `
+}
 
 //==============================
 function isEmpty(elt) {
