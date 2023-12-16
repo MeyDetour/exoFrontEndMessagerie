@@ -4,6 +4,7 @@ body{
 :root {
     --joyeux: #043f49;
     --prof: #138a9d;
+    --profHover : #0d7181;
 }
 
 .page {
@@ -23,9 +24,10 @@ body{
 
 .navbar {
 display:  flex;
+    flex-wrap: nowrap;
     flex-direction: column;
     padding: 1%;
-    width: 14%;
+    width: 16%;
     height: 100%;
     background-color: var(--joyeux);
     justify-content: space-between;
@@ -33,14 +35,21 @@ display:  flex;
 .navbarListePV{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
     width: 97%;
     overflow-y: scroll;
     height: 90%;
 }
 .navbarListePV> button{
-
+    background-color: white;
+    width: 93%;
+    display: flex;
+    flex-direction: row;
+justify-content: start;
+    gap: 10px;
+    height: 53px;
+    align-items: center;
 }
 .navbarParamContainer{
     border-top: var(--prof) 1px solid;
@@ -54,7 +63,8 @@ display:  flex;
 }
 /* width */
 ::-webkit-scrollbar {
-    width: 20px;
+    width: 8px;
+    height: 90%;
 }
 
 /* Track */
@@ -65,13 +75,18 @@ display:  flex;
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: red;
+    background: var(--prof);
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #b30000;
+    background: var(--profHover);
+}
+
+.convPvImg{
+    width: 40px ;
+    height: 40px;
 }
 /*=================== FIL DISCUSSION ===================*/
 
