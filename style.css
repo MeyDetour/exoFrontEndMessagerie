@@ -51,6 +51,9 @@ justify-content: start;
     height: 53px;
     align-items: center;
 }
+.navbarListePV> button:hover{
+background-color: #cbcbcb;
+}
 .navbarParamContainer{
     border-top: var(--prof) 1px solid;
     width: 80%;
@@ -63,7 +66,7 @@ justify-content: start;
 }
 /* width */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 5px;
     height: 90%;
 }
 
@@ -88,6 +91,32 @@ justify-content: start;
     width: 40px ;
     height: 40px;
 }
+
+/*=================== NAVBAR ===================*/
+.paramContainer{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0%;
+    filter: blur(100%);
+    background-color: rgb(3 3 3 / 57%);
+}
+.paramContainerFond{
+    background-color: #cbcbcb;
+    width: 80%;
+    height: 80%;
+    border-radius: 50px;
+    position: relative;
+    box-shadow: #00000024 0px 0px 20px 20px;
+}
+.paramFermer{
+    color: var(--joyeux);
+    font-size: 1.5em;
+    position: absolute;
+    right: 4%;
+    top: 4%;
+}
 /*=================== FIL DISCUSSION ===================*/
 
 .contenuDePage {
@@ -97,13 +126,16 @@ justify-content: start;
 }
 .filDeDiscussion {
     width: 100%;
-    height: 92%;
+
+    height: 95%;
     overflow-y: scroll;
     background-color :#cbcbcb ;
     position: relative;
 }
 .messageContainer , .messageContainer1 {
     width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
    display: flex;
     flex-direction: row;
     justify-content: start;
@@ -123,10 +155,10 @@ justify-content: start;
     position: relative;
     overflow: hidden;
     gap: 20px;
-    border-radius: 0px 60px 60px 0px;
+    border-radius: 0px 20px 20px 0px;
 }
 .messageReverse{
-    border-radius: 60px 0px 0px 60px !important;
+    border-radius: 20px 0px 0px 20px !important;
     flex-direction: row-reverse !important;
 }
 .messageImage{
@@ -160,7 +192,7 @@ outline: none;
 }
 
 .postMessageContainer{
-    height: 8%;
+    height: 5%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -173,8 +205,8 @@ outline: none;
     border: 0;
     height: 100%;
     outline: none;
-    font-size: 1.2em;
-    padding: 1em;
+    font-size: 1em;
+    padding: 10px;
 }
 .postMessageContainer .bi{
     font-size: 2.2em;
@@ -193,7 +225,6 @@ outline: none;
     height: 100%;
     color: var(--joyeux);
 }
-
 
 .boutonForm {
     border: 4px solid var(--joyeux);

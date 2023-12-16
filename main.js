@@ -4,7 +4,7 @@ let baseUrl = 'https://b1messenger.imatrythis.com/'
 let listeMessage = null
 let user = null
 let navbar = document.querySelector('.navbar')
-
+let page = document.querySelector('.page')
 run()
 
 function run() {
@@ -93,13 +93,15 @@ function renderMessages() {
     messages.forEach(message => {
         message.style.innerHeight += message.querySelector('#messageContenu').scrollHeight + 'px'
     })
-
+    let postmessage = document.querySelector('#postmessage');
+    postmessage.focus()
+    renderInterface()
 
 }
 
 function renderMessage(message) {
     let param = {
-        classe : 'message',
+        classe :`message`,
         container : 'messageContainer',
         option : `
                  <div class="messageIc">
@@ -127,24 +129,23 @@ function renderMessage(message) {
         param.classe = 'messageReverse'
     }
 
-    let template =
-        `
+    let template = `
 <div class="${param.container}">
      <div class="${param.classe}" id="message${message.id}">
-     <div class="d-flex flex-column align-items-center justify-content-center gap-2">
-         <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
-
-      ${param.option}
-</div>
-       <div class="w-100 h-100">
-          <h2 class="messageAuteur">${param.dpn}</h2> 
-      <div class="w-100 d-flex flex-row align-items-top">
-               <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-            <button type="submit" class="d-none boutonForm editmessageSubmit${message.id}"> Modifier </button>
+            <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+             <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
+            
+            ${param.option}
             </div>
-</div>
+           <div class="w-100 h-100">
+                     <h2 class="messageAuteur">${param.dpn}</h2> 
+                    <div class="w-100 d-flex flex-row align-items-top">
+                        <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                        <button type="submit" class="d-none boutonForm editmessageSubmit${message.id}"> Modifier </button>
+                    </div>
+           </div>
      
-</div>  
+        </div>  
 </div>
  
            
@@ -154,10 +155,44 @@ function renderMessage(message) {
 
 function renderInterface(){
     navbar.innerHTML = `
-    
+
+      <div class="navbarListePV">
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+            <button class="btn "><img src="images/defaultimg.png" class="convPvImg" alt=""><h6>contact</h6></button>
+
+        </div>
+    <div onclick="toggleParam()" class="navbarParamContainer centered">
+        <img src="images/defaultimg.png" alt="" class="navbarParamImage">
+    </div>
     `
 }
 
+function toggleParam() {
+document.querySelector('.paramContainer').classList.toggle('d-none')
+}
 //==============================
 function isEmpty(elt) {
     return elt === ''
@@ -174,7 +209,7 @@ function addEvent() {
     })
     document.querySelectorAll('.bi-pencil').forEach((crayon => {
         crayon.addEventListener('click', () => {
-            const textarea = document.querySelector(`#message${crayon.id} > div>  textarea`)
+            const textarea = document.querySelector(`#message${crayon.id} > div> div>  textarea`)
             textarea.readOnly = false
             console.log(textarea)
             textarea.classList.add('borderEdit')
@@ -196,6 +231,8 @@ function addEvent() {
             }
         }
     )
+
+
 
 
 }
@@ -261,7 +298,6 @@ async function getMessage() {
     await fetch(`${baseUrl}api/messages`, param)
         .then(response => response.json())
         .then(data => {
-
             listeMessage = data
 
         })
@@ -337,6 +373,4 @@ async function editMessage(id, contenu) {
         })
 }
 
-`
-Uncaught (in promise) TypeError: Failed to execute 'fetch' on 'Window':
- Request with GET/HEAD method cannot have body.`
+
