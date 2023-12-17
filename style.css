@@ -1,10 +1,18 @@
-body{
+body {
     overflow: hidden;
+margin: 0;
 }
+
+html {
+    font-family: 'Inter';
+}
+
 :root {
     --joyeux: #043f49;
     --prof: #138a9d;
-    --profHover : #0d7181;
+    --profHover: #0d7181;
+    --princesse : #7A65F9;
+
 }
 
 .page {
@@ -14,16 +22,18 @@ body{
     height: 100vh;
 
 }
+
 .centered {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 /*=================== NAVBAR ===================*/
 
 .navbar {
-display:  flex;
+    display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
     padding: 1%;
@@ -32,7 +42,8 @@ display:  flex;
     background-color: var(--joyeux);
     justify-content: space-between;
 }
-.navbarListePV{
+
+.navbarListePV {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -41,29 +52,34 @@ display:  flex;
     overflow-y: scroll;
     height: 90%;
 }
-.navbarListePV> button{
+
+.navbarListePV > button {
     background-color: white;
     width: 93%;
     display: flex;
     flex-direction: row;
-justify-content: start;
+    justify-content: start;
     gap: 10px;
     height: 53px;
     align-items: center;
 }
-.navbarListePV> button:hover{
-background-color: #cbcbcb;
+
+.navbarListePV > button:hover {
+    background-color: #cbcbcb;
 }
-.navbarParamContainer{
+
+.navbarParamContainer {
     border-top: var(--prof) 1px solid;
     width: 80%;
     padding-top: 17px;
 }
-.navbarParamImage{
+
+.navbarParamImage {
     width: 55px;
     height: 55px;
     border-radius: 50%;
 }
+
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
@@ -78,7 +94,7 @@ background-color: #cbcbcb;
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--prof);
+    background: var(--princesse);
     border-radius: 10px;
 }
 
@@ -87,13 +103,103 @@ background-color: #cbcbcb;
     background: var(--profHover);
 }
 
-.convPvImg{
-    width: 40px ;
+.convPvImg {
+    width: 40px;
     height: 40px;
 }
 
+/*=================== FOND DISCUSSION ===================*/
+
+.fond {
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+
+    background: #02001D;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.rond1, .rond2, .rond3 {
+    width: 337px;
+    height: 337px;
+    position: absolute;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #00252a69;
+    filter: blur(25px);
+}
+
+.rond1 {
+    right: -2%;
+    bottom: 10%;
+}
+
+.rond2 {
+    right: 42%;
+    top: 10%;
+}
+
+.rond3 {
+    left: 2%;
+    background: #1c003f8a !important;
+    bottom: 16%;
+}
+
+.filDeDiscussion {
+    overflow-y: scroll;
+    width: 99%;
+    height: 95%;
+    background-color: #0e0c2a17;
+    padding: 48px 50px;
+    border-radius: 17px;
+    outline: 243px solid rgba(14, 12, 42, 0.28);
+    backdrop-filter: blur(21px);
+}
+
+.banner {
+   margin-bottom: 40px;
+    width: 95%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    height: 229px;
+    padding: 20px 40px;
+    border-radius: 15px 0px 0px 15px;
+    background: linear-gradient(91deg, rgba(111, 229, 255, 0.16) 0%, rgba(111, 229, 255, 0.00) 92.62%);
+}
+
+.bannerIc {
+    color: #00D1FF;
+    position: absolute;
+    font-size: 2em;
+    right: 5%;
+    top: 12%;
+}
+
+.bannerTitle {
+    color: #00D1FF;
+
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.banner > p {
+    color: #5B7B82;
+
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 /*=================== NAVBAR ===================*/
-.paramContainer{
+.paramContainer {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -102,7 +208,8 @@ background-color: #cbcbcb;
     filter: blur(100%);
     background-color: rgb(3 3 3 / 57%);
 }
-.paramContainerFond{
+
+.paramContainerFond {
     background-color: #cbcbcb;
     width: 80%;
     height: 80%;
@@ -110,13 +217,15 @@ background-color: #cbcbcb;
     position: relative;
     box-shadow: #00000024 0px 0px 20px 20px;
 }
-.paramFermer{
+
+.paramFermer {
     color: var(--joyeux);
     font-size: 1.5em;
     position: absolute;
     right: 4%;
     top: 4%;
 }
+
 /*=================== FIL DISCUSSION ===================*/
 
 .contenuDePage {
@@ -124,48 +233,65 @@ background-color: #cbcbcb;
     height: 100%;
     width: 96%;
 }
-.filDeDiscussion {
+
+
+
+.messageContainer, .messageContainer1 {
     width: 100%;
 
-    height: 95%;
-    overflow-y: scroll;
-    background-color :#cbcbcb ;
     position: relative;
-}
-.messageContainer , .messageContainer1 {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-   display: flex;
+    margin-bottom: 58px;
+    display: flex;
     flex-direction: row;
     justify-content: start;
 }
-.messageContainer1{
+
+.messageContainer1 {
     justify-content: end;
 }
-.message , .messageReverse {
-    box-shadow: var(--joyeux) 4px 5px 13px 0px;;
-    width: 90%;
+
+.message, .messageReverse {
+    width: 697px;
+
+    border-radius: 40px;
+    background: #1E1E34;
     display: flex;
     flex-direction: row;
     color: var(--joyeux);
     font-size: 1em;
-    background-color: #e7e7e7;
-    padding: 20px 27px;
+    padding: 20px 76px;
     position: relative;
     overflow: hidden;
     gap: 20px;
-    border-radius: 0px 20px 20px 0px;
+
 }
-.messageReverse{
-    border-radius: 20px 0px 0px 20px !important;
+
+.messageReverse {
+background: #3D008C; !important;
     flex-direction: row-reverse !important;
 }
-.messageImage{
-    width: 51px;
-    height: 51px;
+.messageReverse  div div  #messageContenu{
+    color: #AF9CD9;
+
+}
+.messageContainer > .messageImage {
+    top: -44%;
+    left: -1.2%;
+}
+.messageContainer1 > .messageImage {
+    top: -44%;
+    right: -1.2%;
+}
+.messageImage {
+    width: 71px;
+border-radius: 50%;
+    background: #1E1E34;
+    height: 70px;
+    position: absolute;
+    z-index: 1;
     border-radius: 50%;
 }
+
 .messageIc {
 
     display: flex;
@@ -174,24 +300,47 @@ background-color: #cbcbcb;
     gap: 10px;
 }
 
-.messageAuteur {
-    font-size: 1.2em;
+ .messageAuteur {
+    position: absolute;
+
+    color: #A790DC;
+    /* font-family: Inter; */
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 
 }
+.messageContainer1 > .messageAuteur {
+    right: 5%;
+    top: -36%;
+}
+
+.messageContainer > .messageAuteur {
+    left: 5%;
+    top: -36%;
+   }
+
 
 #messageContenu {
     width: 90%;
     border: 0;
     background-color: transparent;
-outline: none;
+    outline: none;
     resize: none;
+    color: #666074;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
-.borderEdit{
+
+.borderEdit {
 
     border: var(--prof) 3px solid !important;
 }
 
-.postMessageContainer{
+.postMessageContainer {
     height: 6%;
     justify-content: space-around;
     display: flex;
@@ -200,7 +349,8 @@ outline: none;
     width: 100%;
 
 }
-#postmessage{
+
+#postmessage {
     width: 94%;
     border-radius: 8px;
     border: 0;
@@ -209,7 +359,8 @@ outline: none;
     font-size: 1em;
     padding: 5px;
 }
-.postMessageContainer .bi{
+
+.postMessageContainer .bi {
     font-size: 1.3em;
     color: var(--joyeux);
 }
@@ -248,7 +399,7 @@ outline: none;
     text-transform: uppercase;
 }
 
-#loginFormToSignUp, #signUpToLogin{
+#loginFormToSignUp, #signUpToLogin {
     color: var(--joyeux);
     font-size: 0.8em;
     border: 0;
@@ -265,20 +416,25 @@ outline: none;
 
         height: 100%;
     }
+
     .loginform {
         height: 100%;
     }
+
     /*=== navbar ===*/
-    .navbar{
+    .navbar {
         display: none;
     }
-    .contenuDePage{
+
+    .contenuDePage {
         width: 100%;
     }
-    .message{
+
+    .message {
         padding: 21px 12px;
     }
-    .messageImage{
+
+    .messageImage {
         width: 50px;
         height: 50px;
     }

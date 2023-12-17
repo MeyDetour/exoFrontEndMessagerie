@@ -4,7 +4,7 @@ let baseUrl = 'https://b1messenger.imatrythis.com/'
 let listeMessage = null
 let user = null
 let navbar = document.querySelector('.navbar')
-let page = document.querySelector('.page')
+let page = document.querySelector('body')
 run()
 
 function run() {
@@ -79,7 +79,23 @@ function renderMessages() {
 
     })
     let fil = `
+
+
          <div class="filDeDiscussion">
+                <div class="banner">
+                <div class="bannerIc">
+                    <i class="bi bi-x-lg"></i>
+                </div>
+                <h1 class="bannerTitle">Welcome to Nova</h1>
+                <p>
+                    In this classroom chat, we design, improve, try, try again, try again again and have fun with our
+                    app !
+                    <br>Then if like us you like have some fun, come here and try it !
+                    <br><br>
+                    Made by the best developper Mey 😉
+                </p>
+            </div>
+         
          ${allMessages}
         </div>
         <div class="postMessageContainer">
@@ -130,14 +146,12 @@ function renderMessage(message) {
 
     let template = `
 <div class="${param.container}">
+ <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
+    <h2 class="messageAuteur">${param.dpn}</h2> 
+        
      <div class="${param.classe}" id="message${message.id}">
-            <div class="d-flex flex-column align-items-center justify-content-center gap-2">
-             <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
-            
-            ${param.option}
-            </div>
-           <div class="w-100 h-100">
-                     <h2 class="messageAuteur">${param.dpn}</h2> 
+                <div class="w-100 h-100">
+                   
                     <div class="w-100 d-flex flex-row align-items-top">
                         <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
                         <button type="submit" class="d-none boutonForm editmessageSubmit${message.id}"> Modifier </button>
@@ -150,6 +164,12 @@ function renderMessage(message) {
            
 `
     return template
+
+    //   <div class="d-flex flex-column align-items-center justify-content-center gap-2">
+    //              <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
+    //
+    //        ${param.option}
+    //             </div>
 }
 
 function renderInterface(){
