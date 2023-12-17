@@ -104,10 +104,9 @@ function renderMessage(message) {
         classe :`message`,
         container : 'messageContainer',
         option : `
-                 <div class="messageIc">
-           
-                   <i class="bi bi-chat-left-heart"></i>
-                  <i class="bi bi-chat"></i>
+                 <div class="messageIc">    
+                   <i  id="${message.id} class="bi bi-chat-left-heart"></i>
+                  <i  id="${message.id} class="bi bi-chat"></i>
                 </div>
     `,
         dpn : message.author.displayName
@@ -220,7 +219,6 @@ function addEvent() {
 
         })
     }))
-
     document.querySelector('.postmessageBtn').addEventListener('click', () => {
             if (!isEmpty(document.querySelector('#postmessage').value)) {
                 postmessage(document.querySelector('#postmessage').value)
@@ -231,6 +229,12 @@ function addEvent() {
             }
         }
     )
+    document.querySelectorAll('.bi-chat-left-heart').forEach(icone=>{
+        icone.addEventListener('click',()=>{
+            document.querySelector(`.message${icone.id} > div > div> textarea`)
+
+        })
+    })
 
 
 
@@ -303,6 +307,21 @@ async function getMessage() {
         })
 }
 
+async function sendReact(contenu){
+    let param = {
+        method:'post',
+        headers:{'Content-type':'application/json',
+        'Authorization':`bearer ${token}`},
+        body: JSON.stringify({
+            content: contenu
+        })
+    }
+    await fetch(`${baseUrl}api/response/${id}/new`,param)
+        .then(response=>response.json())
+        .then(data =>{
+            console.log(data)
+        })
+}
 async function identifier() {
     const param = {
         method: 'GET',
