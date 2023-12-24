@@ -1,6 +1,7 @@
 body {
     overflow: hidden;
-margin: 0;
+    margin: 0;
+
 }
 
 html {
@@ -8,19 +9,24 @@ html {
 }
 
 :root {
-    --joyeux: #043f49;
-    --prof: #138a9d;
-    --profHover: #0d7181;
-    --princesse : #7A65F9;
+    --joyeux: #A790DC;
+    --prof: #3D008C;
+    --barHover: #59019d;
+    --scrollbar: #59019d;
+    --princesse: #7A65F9;
 
 }
 
 .page {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     height: 100vh;
-
+    background-color: #0e0c2a17;
+    border-radius: 20px;
+    outline: 243px solid rgba(14, 12, 42, 0.28);
 }
 
 .centered {
@@ -39,40 +45,24 @@ html {
     padding: 1%;
     width: 16%;
     height: 100%;
-    background-color: var(--joyeux);
+    background-color: transparent;
     justify-content: space-between;
 }
 
-.navbarListePV {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    width: 97%;
-    overflow-y: scroll;
-    height: 90%;
+.separation {
+    width: 2px;
+    height: 95%;
+    flex-shrink: 0;
+    border-radius: 3px;
+    z-index: 1;
+    background: #38313D;
 }
 
-.navbarListePV > button {
-    background-color: white;
-    width: 93%;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    gap: 10px;
-    height: 53px;
-    align-items: center;
-}
 
 .navbarListePV > button:hover {
     background-color: #cbcbcb;
 }
 
-.navbarParamContainer {
-    border-top: var(--prof) 1px solid;
-    width: 80%;
-    padding-top: 17px;
-}
 
 .navbarParamImage {
     width: 55px;
@@ -88,33 +78,132 @@ html {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
+
     border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--princesse);
+    background: var(--scrollbar);
     border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--profHover);
+    background: var(--barHover);
+}
+
+.paramContainer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0%;
+    filter: blur(100%);
+    background-color: rgb(3 3 3 / 57%);
+}
+
+.paramContainerFond {
+    background-color: #cbcbcb;
+    width: 80%;
+    height: 80%;
+    border-radius: 50px;
+    position: relative;
+    box-shadow: #00000024 0px 0px 20px 20px;
+}
+
+.paramFermer {
+    color: var(--joyeux);
+    font-size: 1.5em;
+    position: absolute;
+    right: 4%;
+    top: 4%;
+}
+
+.navbarListePV {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 97%;
+    overflow-y: scroll;
+    height: 90%;
+}
+
+.pvBanner {
+    padding: 8px 21px;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.pvBanner span {
+    color: #00D1FF;
+    width: 80%;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.pvBanner div {
+    width: 20%;
+
 }
 
 .convPvImg {
-    width: 40px;
-    height: 40px;
+    width: 65px;
+    height: 65px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    background: #242741;
+    box-shadow: 3px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.pvContact {
+    width: 100%;
+    height: auto;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 10px;
+    align-items: center;
+}
+
+.pvContactData {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.pvContactData h6 {
+    color: #187FCB;
+
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.pvContactData span {
+    color: #666074;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-wrap: nowrap;
 }
 
 /*=================== FOND DISCUSSION ===================*/
 
 .fond {
-    width: 100%;
-    height: 100vh;
+    width: 100vw;
     z-index: 1;
-
+    height: 100vh;
     background: #02001D;
     display: flex;
     flex-direction: row;
@@ -127,8 +216,9 @@ html {
     height: 337px;
     position: absolute;
     flex-shrink: 0;
+
     border-radius: 50%;
-    background: #00252a69;
+    background: #00252aa8;
     filter: blur(25px);
 }
 
@@ -144,32 +234,36 @@ html {
 
 .rond3 {
     left: 2%;
-    background: #1c003f8a !important;
+    background: #1c003fd4 !important;
     bottom: 16%;
 }
 
 .filDeDiscussion {
     overflow-y: scroll;
     width: 99%;
-    height: 95%;
-    background-color: #0e0c2a17;
-    padding: 48px 50px;
+    height: 90%;
+
+    padding: 22px 50px;
     border-radius: 17px;
-    outline: 243px solid rgba(14, 12, 42, 0.28);
+
     backdrop-filter: blur(21px);
 }
 
-.banner {
-   margin-bottom: 40px;
-    width: 95%;
+.pvBanner, .banner {
 
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    height: 229px;
-    padding: 20px 40px;
     border-radius: 15px 0px 0px 15px;
     background: linear-gradient(91deg, rgba(111, 229, 255, 0.16) 0%, rgba(111, 229, 255, 0.00) 92.62%);
+    display: flex;
+    align-items: start;
+    width: 95%;
+
+}
+
+.banner {
+    margin-bottom: 94px;
+    flex-direction: column;
+    height: 229px;
+    padding: 20px 40px;
 }
 
 .bannerIc {
@@ -198,130 +292,16 @@ html {
     line-height: normal;
 }
 
-/*=================== NAVBAR ===================*/
-.paramContainer {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0%;
-    filter: blur(100%);
-    background-color: rgb(3 3 3 / 57%);
-}
 
-.paramContainerFond {
-    background-color: #cbcbcb;
-    width: 80%;
-    height: 80%;
-    border-radius: 50px;
-    position: relative;
-    box-shadow: #00000024 0px 0px 20px 20px;
-}
-
-.paramFermer {
-    color: var(--joyeux);
-    font-size: 1.5em;
-    position: absolute;
-    right: 4%;
-    top: 4%;
-}
-
-/*=================== FIL DISCUSSION ===================*/
+/*======= FIL DISCUSSION ========*/
 
 .contenuDePage {
 
     height: 100%;
-    width: 96%;
+    width: 90%;
 }
 
-
-
-.messageContainer, .messageContainer1 {
-    width: 100%;
-
-    position: relative;
-    margin-bottom: 58px;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-}
-
-.messageContainer1 {
-    justify-content: end;
-}
-
-.message, .messageReverse {
-    width: 697px;
-
-    border-radius: 40px;
-    background: #1E1E34;
-    display: flex;
-    flex-direction: row;
-    color: var(--joyeux);
-    font-size: 1em;
-    padding: 20px 76px;
-    position: relative;
-    overflow: hidden;
-    gap: 20px;
-
-}
-
-.messageReverse {
-background: #3D008C; !important;
-    flex-direction: row-reverse !important;
-}
-.messageReverse  div div  #messageContenu{
-    color: #AF9CD9;
-
-}
-.messageContainer > .messageImage {
-    top: -44%;
-    left: -1.2%;
-}
-.messageContainer1 > .messageImage {
-    top: -44%;
-    right: -1.2%;
-}
-.messageImage {
-    width: 71px;
-border-radius: 50%;
-    background: #1E1E34;
-    height: 70px;
-    position: absolute;
-    z-index: 1;
-    border-radius: 50%;
-}
-
-.messageIc {
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-}
-
- .messageAuteur {
-    position: absolute;
-
-    color: #A790DC;
-    /* font-family: Inter; */
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
-}
-.messageContainer1 > .messageAuteur {
-    right: 5%;
-    top: -36%;
-}
-
-.messageContainer > .messageAuteur {
-    left: 5%;
-    top: -36%;
-   }
-
-
+/* Messages */
 #messageContenu {
     width: 90%;
     border: 0;
@@ -335,19 +315,172 @@ border-radius: 50%;
     line-height: normal;
 }
 
-.borderEdit {
-
-    border: var(--prof) 3px solid !important;
+.messageAuteurOption {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 23px;
 }
 
+.messageAuteur {
+
+    color: #A790DC;
+    /* font-family: Inter; */
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+}
+
+.messageIc {
+    font-size: 1em;
+    color: var(--joyeux);
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+}
+
+.messageImage {
+    width: 71px;
+    border-radius: 50%;
+    background: #1E1E34;
+    height: 70px;
+    position: absolute;
+    z-index: 1;
+    border-radius: 50%;
+}
+
+.message, .messageReverse {
+    width: 697px;
+    border-radius: 21px;
+    background: #1E1E34;
+    display: flex;
+    flex-direction: row;
+    color: var(--joyeux);
+    font-size: 1em;
+    padding: 20px 76px;
+    position: relative;
+    overflow: hidden;
+    gap: 20px;
+}
+.messageContainer1 > .messageStart {
+    border-radius: 21px 21px 4px 21px !important;
+}
+.messageContainer1 > .messageMiddle {
+    border-radius: 21px 4px 4px 21px !important;
+}
+.messageContainer1 > .messageEnd {
+     border-radius: 21px 4px 21px 21px !important;
+ }
+.messageContainer > .messageStart {
+    border-radius: 21px 21px 21px 4px !important;
+}
+.messageContainer > .messageMiddle {
+    border-radius: 4px 21px 21px 4px !important;
+}
+.messageContainer > .messageEnd {
+    border-radius: 4px 21px 21px 21px !important;
+}
+
+.messageReverse {
+    background: #3D008C !important;
+
+    flex-direction: row-reverse !important;
+}
+
+.messageReverse div div #messageContenu {
+    color: #AF9CD9;
+
+}
+
+.messageContainer, .messageContainer1 {
+    width: 100%;
+
+    position: relative;
+    margin-bottom: 58px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+}
+
+.messageContainer1 {
+    justify-content: end;
+
+}
+
+.messageContainer1 > .messageAuteurOption {
+    flex-direction: row-reverse;
+    right: 4.5%;
+    top: -31%;
+}
+
+.messageContainer > .messageAuteurOption {
+    flex-direction: row;
+    left: 4.5%;
+    top: -31%;
+}
+
+.messageContainer > .messageImage {
+    top: -44%;
+    left: -1.2%;
+}
+
+.messageContainer1 > .messageImage {
+    top: -44%;
+    right: -1.2%;
+}
+
+.messageContainer > .messageIc {
+
+}
+
+.messageContainer1 > .messageIc {
+
+}
+
+/* Edit Messages */
+.borderEdit {
+    border: var(--princesse) 3px solid !important;
+}
+
+/* Envoyer Messages */
+
 .postMessageContainer {
-    height: 6%;
+    height: 8%;
     justify-content: space-around;
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
+    width: 98%;
+    margin: 10px 20px;
+    outline: none;
+    font-size: 1em;
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid #2C0065;
+    background: rgba(3, 1, 30, 0.48);
+    backdrop-filter: blur(10.600000381469727px);
 
+}
+
+.postmessageBtn {
+    border-radius: 5px;
+    gap: 17px;
+    margin: 9px;
+    height: 53px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background: #7A65F9;
+    font-size: 1.5em;
+    padding: 14px;
+    color: white;
+    box-shadow: 1px 2px 4px 0px #7A65F9;
 }
 
 #postmessage {
@@ -356,13 +489,12 @@ border-radius: 50%;
     border: 0;
     height: 100%;
     outline: none;
-    font-size: 1em;
+    font-size: 1.5em;
+    resize: none;
     padding: 5px;
-}
+    background-color: transparent;
+    color: var(--princesse);
 
-.postMessageContainer .bi {
-    font-size: 1.3em;
-    color: var(--joyeux);
 }
 
 /*=================== FORMULAIRE ===================*/
@@ -370,24 +502,26 @@ border-radius: 50%;
 .loginform, .signupform {
     display: flex;
     flex-direction: column;
+    z-index: 1;
     justify-content: center;
-    background-color: lightgrey;
+    background-color: transparent;
     align-items: center;
     gap: 30px;
     height: 100%;
-    color: var(--joyeux);
+    color: var(--princesse);
 }
 
 .boutonForm {
-    border: 4px solid var(--joyeux);
+    color: var(--princesse);
+    border: 4px solid var(--princesse);
     position: relative;
     box-shadow: 3px 3px 1px 0px var(--prof);
 }
 
 .loginform input, .signupform input {
-
+    color: var(--princesse);
     background: transparent;
-    border: solid 2px var(--joyeux);
+    border: solid 2px var(--princesse);
     outline: none;
     padding: 0.5em;
     border-radius: 8px;
@@ -400,13 +534,17 @@ border-radius: 50%;
 }
 
 #loginFormToSignUp, #signUpToLogin {
-    color: var(--joyeux);
+    color: var(--princesse);
     font-size: 0.8em;
     border: 0;
     background-color: transparent;
     outline: none;
     text-decoration: underline;
 
+}
+
+::placeholder {
+    color: #513fa8;
 }
 
 /*=================== Discussion ===================*/
