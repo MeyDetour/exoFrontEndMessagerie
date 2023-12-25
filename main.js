@@ -2,6 +2,7 @@ let token = null
 let content = document.querySelector('.contenuDePage')
 let baseUrl = 'https://b1messenger.imatrythis.com/'
 let listeMessage = null
+let listeMessageGroup = []
 let user = null
 let navbar = document.querySelector('.navbar')
 let page = document.querySelector('body')
@@ -75,9 +76,12 @@ function renderForm() {
 
 function renderMessages() {
     let allMessages = ''
+
     if (listeMessage.length !== 0) {
-        listeMessage.forEach(message => {
-            allMessages += renderMessage(message)
+        regroupeMessage()
+        console.log(listeMessageGroup)
+        listeMessageGroup.forEach(messageGroup => {
+            allMessages += renderMessage(messageGroup)
         })
     }
 
@@ -117,30 +121,40 @@ function renderMessages() {
 
 }
 
-function renderMessage(message) {
-    let id = message.id
-    let messagesRegrouper = messagePosition(message)
-
+function renderMessage(messageGroup) {
 
     let param = {
-
         container: 'messageContainer',
-        option: `
+
+        dpn: messageGroup[0].author.displayName,
+
+    }
+
+    if (!messageGroup[0].author.displayName) {
+        param.dpn = messageGroup[0].author.username
+    }
+
+    if (user.id === messageGroup[0].author.id) {
+        param.container = 'messageContainer1'
+    }
+
+
+    let classeMessage = ''
+    let messagesRegrouper = ''
+    for (let k = 0; k < messageGroup.length; k++) {
+
+
+        let message = messageGroup[k]
+        let id = message.id
+
+        param['option'] = `
                  <div class="messageIc">    
                    <i  id="${id} "class="bi bi-chat-left-heart"></i>
                    <i  id="${id}" class="bi bi-chat"></i>
                 </div>
-    `,
-        dpn: message.author.displayName,
+    `
 
-    }
-
-    if (!message.author.displayName) {
-        param.dpn = message.author.username
-    }
-
-    if (user.id === message.author.id) {
-        param.container = 'messageContainer1',
+        if (user.id === messageGroup[0].author.id) {
             param.option = `
                 <div class="messageIc" ">
                      <i id="${id}" class="bi bi-pencil"></i>
@@ -148,25 +162,46 @@ function renderMessage(message) {
                 </div>
     `
 
+        }
+        if (messageGroup.length === 1) {
+            classeMessage = ' '
+        }
+        else if (k === 0) {
+            classeMessage = ' messageStart'
+        }   else if (messageGroup.length - 1 === k) {
+            classeMessage = ' messageEnd'
+        } else {
+            classeMessage = ' messageMiddle'
+        }
+        let template = `
+                         <div class=" message ${classeMessage}" id="message${id}">
+                            ${param.option}
+                            <div class="w-100 h-100">
+                                <div class="w-100 d-flex flex-row align-items-top">
+                                    <textarea readonly class="messageContenu${id}" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                                </div>
+                              </div>
+                          </div>  
+                    
+    `
+        messagesRegrouper += template
     }
-
-    let template = `
+    let templateCntainer = `
         <div class="${param.container}">
              <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
             <div class="messageAuteurOption">
                  <span class="messageAuteur">${param.dpn}</span>    
-                  ${param.option}
+               
             </div> 
-            ${messagesRegrouper}
-            
-        
-            
+            <div class="d-flex flex-column align-items-start">
+               ${messagesRegrouper}
+            </div>
          
         </div>
- 
-           
 `
-    return template
+
+    return templateCntainer
 
 
 }//le probleme est que le container prend trois message ensemble sauf que la bnoucle foreach demande trop de fois de creer ce meme container donc trois message trois container de trois messages vont etre creer
@@ -207,7 +242,6 @@ function isEmpty(elt) {
 
 function addEvent() {
 
-    console.log(document.querySelectorAll('.bi-trash3'))
     document.querySelectorAll('.bi-trash3').forEach((poubelle) => {
         poubelle.addEventListener('click', () => {
             supprimer(poubelle.id)
@@ -216,7 +250,7 @@ function addEvent() {
     })
     document.querySelectorAll('.bi-pencil').forEach((crayon => {
         crayon.addEventListener('click', () => {
-            const textarea = document.querySelector(`#message${crayon.id} > div> div>  textarea`)
+            const textarea = document.querySelector(`.messageContenu${crayon.id} `)
             textarea.readOnly = false
             console.log(textarea)
             textarea.classList.add('borderEdit')
@@ -256,127 +290,23 @@ function scrollY() {
     document.querySelector('.filDeDiscussion').scrollTo(0, document.querySelector('.filDeDiscussion').scrollHeight)
 }
 
-function messagePosition(message) {
-    let id = message.id
-
-    let messageContainer = ``
-    'messageStart messageMiddle messageEnd messageSolo '
-    for (let k = 0; k < listeMessage.length; k++) {
-
+function regroupeMessage() {
+    let groupSameAuthor = [listeMessage[0]]
+    for (let k = 1; k < listeMessage.length; k++) {
         let id_current_mess = listeMessage[k].author.id
 
-        //Select message in the message list
-        if (listeMessage[k].id === id) {
-            {
-                console.log(id, k)
-                //is the only message
-                if (k === 0 && k + 1 === listeMessage.length) {
-                    return messageSolo(message)
-                }
-                //is the first message
-                else if (k === 0) {
-
-                    if (id_current_mess === listeMessage[k + 1].author.id) {
-                        messageContainer += `
-                          <div class=" message messageStart" id="message${id}">
-                            <div class="w-100 h-100">
-                                <div class="w-100 d-flex flex-row align-items-top">
-                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                                </div>
-                              </div>
-                          </div>  
-                    `
-                    } else {
-                        return messageSolo(message)
-                    }
-
-                }
-                //is the last message
-                else if (k + 1 === listeMessage.length) {
-                    if (listeMessage[k - 1].author.id === id_current_mess) {
-                        messageContainer += `
-                          <div class=" message messageEnd" id="message${id}">
-                            <div class="w-100 h-100">
-                                <div class="w-100 d-flex flex-row align-items-top">
-                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                                </div>
-                              </div>
-                          </div>  
-                    `
-                        return messageContainer
-                    }
-                    return messageSolo(message)
-                } else {
-                    //if precedent and next message is yours
-                    if (listeMessage[k - 1].author.id === id_current_mess && id_current_mess === listeMessage[k + 1].author.id) {
-                        messageContainer += `
-                          <div class=" message messageMiddle" id="message${id}">
-                            <div class="w-100 h-100">
-                                <div class="w-100 d-flex flex-row align-items-top">
-                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                                </div>
-                              </div>
-                          </div>  
-                    `
-                    }
-                    //if precendent is yours but not the next
-                    else if (listeMessage[k - 1].author.id === id_current_mess) {
-                        messageContainer += `
-                          <div class=" message messageEnd" id="message${id}">
-                            <div class="w-100 h-100">
-                                <div class="w-100 d-flex flex-row align-items-top">
-                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                                </div>
-                              </div>
-                          </div>  
-                    `
-                        return messageContainer
-                    }
-                    //if next is yours but not the precedent
-                    else if (listeMessage[k + 1].author.id === id_current_mess) {
-                        messageContainer += `
-                          <div class=" message messageStart" id="message${id}">
-                            <div class="w-100 h-100">
-                                <div class="w-100 d-flex flex-row align-items-top">
-                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                                </div>
-                              </div>
-                          </div>  
-                    `
-                    } else {
-                        return messageSolo(message)
-                    }
-
-                }
-
-            }
+        if (listeMessage[k - 1].author.id === id_current_mess) {
+            groupSameAuthor.push(listeMessage[k])
+        } else {
+            listeMessageGroup.push(groupSameAuthor)
+            groupSameAuthor = [listeMessage[k]]
         }
-
-
     }
+    listeMessageGroup.push(groupSameAuthor)
+    console.log(listeMessageGroup)
 
 }
 
-function messageSolo(message) {
-    let id = message.id
-    let messageContainer = `
-                      <div class=" message messageSolo" id="message${id}">
-                        <div class="w-100 h-100">
-                          
-                            <div class="w-100 d-flex flex-row align-items-top">
-                                <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                            </div>
-                          </div>
-                      </div>  
-                    `
-    return messageContainer
-}
 
 //============================== FETCH
 

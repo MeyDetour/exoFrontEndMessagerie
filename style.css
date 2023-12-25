@@ -335,13 +335,14 @@ html {
 
 .messageIc {
     font-size: 1em;
-    color: var(--joyeux);
+    color: #514a7e;
     display: flex;
-    flex-direction: row;
-
+    flex-direction: column;
     justify-content: center;
-    gap: 12px;
+    gap: 0px;
     align-items: center;
+    position: absolute;
+
 }
 
 .messageImage {
@@ -368,29 +369,27 @@ html {
     gap: 20px;
     margin-bottom: 10px;
 }
-.messageContainer1 > .messageStart {
+.messageContainer1 > div > .messageStart {
     border-radius: 21px 21px 4px 21px !important;
 }
-.messageContainer1 > .messageMiddle {
+.messageContainer1 > div > .messageMiddle {
     border-radius: 21px 4px 4px 21px !important;
 }
-.messageContainer1 > .messageEnd {
+.messageContainer1 > div > .messageEnd {
      border-radius: 21px 4px 21px 21px !important;
     margin-bottom: 58px;
  }
-.messageContainer > .messageStart {
+.messageContainer > div > .messageStart {
     border-radius: 21px 21px 21px 4px !important;
 }
-.messageContainer > .messageMiddle {
+.messageContainer > div > .messageMiddle {
     border-radius: 4px 21px 21px 4px !important;
 }
-.messageContainer > .messageEnd {
+.messageContainer > div > .messageEnd {
     border-radius: 4px 21px 21px 21px !important;
     margin-bottom: 58px;
 }
-.messageSolo{
-    margin-bottom: 58px;
-}
+
 
 .messageReverse {
     background: #3D008C !important;
@@ -405,7 +404,7 @@ html {
 
 .messageContainer, .messageContainer1 {
     width: 100%;
-
+    margin-bottom: 3em;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -420,31 +419,31 @@ html {
 .messageContainer1 > .messageAuteurOption {
     flex-direction: row-reverse;
     right: 4.5%;
-    top: -31%;
+    top: -1.9em;
 }
 
 .messageContainer > .messageAuteurOption {
     flex-direction: row;
     left: 4.5%;
-    top: -31%;
+    top: -1.9em;
 }
 
 .messageContainer > .messageImage {
-    top: -44%;
+    top: -2em;
     left: -1.2%;
 }
 
 .messageContainer1 > .messageImage {
-    top: -44%;
+    top: -2em;
     right: -1.2%;
 }
 
-.messageContainer > .messageIc {
-
+.messageContainer > div > div> .messageIc {
+    right: 2%;
 }
 
-.messageContainer1 > .messageIc {
-
+.messageContainer1 > div > div> .messageIc {
+    left: 2%;
 }
 
 /* Edit Messages */
