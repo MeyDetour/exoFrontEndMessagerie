@@ -119,10 +119,11 @@ function renderMessages() {
 
 function renderMessage(message) {
     let id = message.id
-    let classes = messagePosition(message)
+    let messagesRegrouper = messagePosition(message)
+
 
     let param = {
-        classe: `message ${classes}`,
+
         container: 'messageContainer',
         option: `
                  <div class="messageIc">    
@@ -130,7 +131,8 @@ function renderMessage(message) {
                    <i  id="${id}" class="bi bi-chat"></i>
                 </div>
     `,
-        dpn: message.author.displayName
+        dpn: message.author.displayName,
+
     }
 
     if (!message.author.displayName) {
@@ -145,28 +147,19 @@ function renderMessage(message) {
                  <i id="${id}" class="bi bi-trash3"></i>
                 </div>
     `
-        param.dpn = 'Vous : ' + param.dpn
-        param.classe = `messageReverse  ${classes}`
+
     }
 
     let template = `
         <div class="${param.container}">
-           <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
+             <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
             <div class="messageAuteurOption">
                  <span class="messageAuteur">${param.dpn}</span>    
                   ${param.option}
             </div> 
-                
-             <div class="${param.classe}" id="message${id}">
-                        <div class="w-100 h-100">
-                           
-                            <div class="w-100 d-flex flex-row align-items-top">
-                                <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
-                                <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
-                            </div>
-                   </div>
-             
-             </div>  
+            ${messagesRegrouper}
+            
+        
             
          
         </div>
@@ -176,7 +169,8 @@ function renderMessage(message) {
     return template
 
 
-}
+}//le probleme est que le container prend trois message ensemble sauf que la bnoucle foreach demande trop de fois de creer ce meme container donc trois message trois container de trois messages vont etre creer
+
 
 function renderInterface() {
     navbar.innerHTML = `
@@ -264,47 +258,100 @@ function scrollY() {
 
 function messagePosition(message) {
     let id = message.id
-    'messageStart messageMiddle messageEnd '
+
+    let messageContainer = ``
+    'messageStart messageMiddle messageEnd messageSolo '
     for (let k = 0; k < listeMessage.length; k++) {
 
         let id_current_mess = listeMessage[k].author.id
 
         //Select message in the message list
-        if (id_current_mess === id) {
+        if (listeMessage[k].id === id) {
             {
+                console.log(id, k)
                 //is the only message
                 if (k === 0 && k + 1 === listeMessage.length) {
-                    return ' messageMiddle'
+                    return messageSolo(message)
                 }
                 //is the first message
                 else if (k === 0) {
 
                     if (id_current_mess === listeMessage[k + 1].author.id) {
-                        return ' messageStart'
+                        messageContainer += `
+                          <div class=" message messageStart" id="message${id}">
+                            <div class="w-100 h-100">
+                                <div class="w-100 d-flex flex-row align-items-top">
+                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                                </div>
+                              </div>
+                          </div>  
+                    `
+                    } else {
+                        return messageSolo(message)
                     }
-                    return ' messageMiddle'
+
                 }
                 //is the last message
-                else if (k + 1 === listeMessage.length){
-                    if(listeMessage[k-1].author.id === id_current_mess){
-                        return ' messageEnd'
+                else if (k + 1 === listeMessage.length) {
+                    if (listeMessage[k - 1].author.id === id_current_mess) {
+                        messageContainer += `
+                          <div class=" message messageEnd" id="message${id}">
+                            <div class="w-100 h-100">
+                                <div class="w-100 d-flex flex-row align-items-top">
+                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                                </div>
+                              </div>
+                          </div>  
+                    `
+                        return messageContainer
                     }
-                    return ' messageMiddle'
-                }
-                else {
+                    return messageSolo(message)
+                } else {
                     //if precedent and next message is yours
-                    if(listeMessage[k-1].author.id === id_current_mess && id_current_mess === listeMessage[k + 1].author.id){
-                        return ' messageMiddle'
+                    if (listeMessage[k - 1].author.id === id_current_mess && id_current_mess === listeMessage[k + 1].author.id) {
+                        messageContainer += `
+                          <div class=" message messageMiddle" id="message${id}">
+                            <div class="w-100 h-100">
+                                <div class="w-100 d-flex flex-row align-items-top">
+                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                                </div>
+                              </div>
+                          </div>  
+                    `
                     }
                     //if precendent is yours but not the next
-                    else if(listeMessage[k-1].author.id === id_current_mess){
-                        return ' messageEnd'
+                    else if (listeMessage[k - 1].author.id === id_current_mess) {
+                        messageContainer += `
+                          <div class=" message messageEnd" id="message${id}">
+                            <div class="w-100 h-100">
+                                <div class="w-100 d-flex flex-row align-items-top">
+                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                                </div>
+                              </div>
+                          </div>  
+                    `
+                        return messageContainer
                     }
                     //if next is yours but not the precedent
-                    else if(listeMessage[k+1].author.id === id_current_mess){
-                        return ' messageStart'
+                    else if (listeMessage[k + 1].author.id === id_current_mess) {
+                        messageContainer += `
+                          <div class=" message messageStart" id="message${id}">
+                            <div class="w-100 h-100">
+                                <div class="w-100 d-flex flex-row align-items-top">
+                                    <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                    <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                                </div>
+                              </div>
+                          </div>  
+                    `
+                    } else {
+                        return messageSolo(message)
                     }
-                    return ' messageMiddle'
+
                 }
 
             }
@@ -313,6 +360,22 @@ function messagePosition(message) {
 
     }
 
+}
+
+function messageSolo(message) {
+    let id = message.id
+    let messageContainer = `
+                      <div class=" message messageSolo" id="message${id}">
+                        <div class="w-100 h-100">
+                          
+                            <div class="w-100 d-flex flex-row align-items-top">
+                                <textarea readonly class="" name="messageContenu" id="messageContenu" >${message.content}</textarea>
+                                <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
+                            </div>
+                          </div>
+                      </div>  
+                    `
+    return messageContainer
 }
 
 //============================== FETCH

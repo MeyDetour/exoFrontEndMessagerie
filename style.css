@@ -366,6 +366,7 @@ html {
     position: relative;
     overflow: hidden;
     gap: 20px;
+    margin-bottom: 10px;
 }
 .messageContainer1 > .messageStart {
     border-radius: 21px 21px 4px 21px !important;
@@ -375,6 +376,7 @@ html {
 }
 .messageContainer1 > .messageEnd {
      border-radius: 21px 4px 21px 21px !important;
+    margin-bottom: 58px;
  }
 .messageContainer > .messageStart {
     border-radius: 21px 21px 21px 4px !important;
@@ -384,6 +386,10 @@ html {
 }
 .messageContainer > .messageEnd {
     border-radius: 4px 21px 21px 21px !important;
+    margin-bottom: 58px;
+}
+.messageSolo{
+    margin-bottom: 58px;
 }
 
 .messageReverse {
@@ -401,7 +407,6 @@ html {
     width: 100%;
 
     position: relative;
-    margin-bottom: 58px;
     display: flex;
     flex-direction: row;
     justify-content: start;
