@@ -481,7 +481,7 @@ html {
 
 .messageContainer, .messageContainer1 {
     width: 100%;
-    margin-bottom: 4em;
+    margin-top : 4em;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -517,10 +517,12 @@ html {
 
 .messageContainer > div > div> .messageIc {
     right: 2%;
+
 }
 
 .messageContainer1 > div > div> .messageIc {
     left: 2%;
+    color: var(--joyeux) !important;
 }
 
 /* Edit Messages */
@@ -533,6 +535,12 @@ html {
 
 /* Envoyer Messages */
 
+.responses {
+    display: flex;
+    flex-direction: column;
+    height: 88%;
+    overflow-y: auto;
+}
 .postMessageContainer {
     height: 8%;
     justify-content: space-around;
@@ -580,6 +588,15 @@ html {
     color: var(--princesse);
 
 }
+.messageResponseTexarea{
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    border-top: 3px solid var(--princesse);
+}
+.messageResponseTexarea textarea{
+    padding: 5px 20px;
+}
 
 
 /* reponse Messages */
@@ -599,15 +616,39 @@ html {
     color: #666074;
 
 }
-.answeringMessage .bi-x-lg{
-
-    font-size: 0em;
+.answeringMessage div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     position: absolute;
-    right: 4%;
-    top: 4%;
+    right: 2%;
+    top: 9%;
+    gap: 10px;
 }
-
-
+.answeringMessage div .bi-x-lg , .answeringMessage div .bi-eye{
+    font-size: 0em;
+}
+.messageResponse{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 11px 50px;
+    gap: 23px;
+    border-bottom: 3px solid #1a0b3b;
+}
+.imessageResponseImage{
+    width: 44px;
+    height: 44px;
+}
+.messageResponse div span{
+    color: var(--joyeux);
+    font-size: 1.5em;
+    font-weight: 700;
+}
+.messageResponse div p{
+    color: var(--princesse);
+    font-size: .8em;
+}
 /*=================== Discussion ===================*/
 
 @media only screen and (max-width: 800px) {

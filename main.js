@@ -16,14 +16,12 @@ function run() {
         identifier().then(response => {
                 getMessage().then(response => {
                     renderMessages()
-                    scrollY()
+                    scrollY(document.querySelector('.filDeDiscussion'))
                     addEvent()
                 })
             }
         )
-
     }
-
 }
 
 //==============================RENDER
@@ -107,8 +105,11 @@ function renderMessages() {
              <div class=" repondreMessageBtn d-none"><span>Repondre</span><i class="bi bi-send"></i></div>
             <div class="postmessageBtn" onclick="run()"><i class="bi bi-arrow-clockwise"></i></div>
             <div class="answeringMessage">
-               
-               <i onclick="run()" class="bi bi-x-lg"></i>
+                <div>
+                   <i class="bi bi-eye"></i>
+                   <i onclick="run()" class="bi bi-x-lg"></i>
+                 </div>
+                <span></span>
             </div>
         </div>
     `
@@ -128,18 +129,12 @@ function renderMessage(messageGroup) {
     let param = {
         container: 'messageContainer',
         classes: 'message',
-        dpn: messageGroup[0].author.displayName,
+        dpn: personalUsername(messageGroup[0].author)
 
     }
-
-
-    if (!messageGroup[0].author.displayName) {
-        param.dpn = messageGroup[0].author.username
-    }
-
     if (user.id === messageGroup[0].author.id) {
         param.container = 'messageContainer1',
-       param.classes = 'messageReverse'
+            param.classes = 'messageReverse'
     }
 
 
@@ -152,7 +147,7 @@ function renderMessage(messageGroup) {
         param['dateMessage'] = formaterDate(messageGroup[k].createdAt)
         param['option'] = `
                  <div class="messageIc">    
-                   <i   id="${id} "class="bi bi-chat-left-heart"></i>
+                   <i id="${id} "class="bi bi-chat-left-heart"></i>
                    <i onclick="renderRepondre(${id},'${param.dpn}')" class="bi bi-chat bi-chat${id}"></i>
                 </div>
     `
@@ -160,7 +155,7 @@ function renderMessage(messageGroup) {
         if (user.id === messageGroup[0].author.id) {
             param.option = `
                 <div class="messageIc" ">
-                      <i onclick="modifyMessage(${id})" class="bi bi-pencil bi-pencil${id}"></i>
+                      <i onclick="modifyMessage(${id},${this})" class="bi bi-pencil bi-pencil${id}"></i>
                       <i onclick="supprimer(${id})" class="bi bi-trash3"></i>
                 </div>
     `
@@ -225,7 +220,7 @@ function renderInterface() {
       <div class="navbarListePV">
             <div class="pvBanner">
             <span>Chats</span>
-              <div onclick="renderParams()" class= " centered">
+              <div onclick="renderPopover()" class= " centered">
                     <img src="${personalImage(user.image)}" alt="" class="navbarParamImage">
                </div>
             </div>
@@ -242,29 +237,81 @@ function renderInterface() {
     `
 }
 
-function renderParams() {
+function renderPopover() {
     switchElt(document.querySelector('.paramContainer'), document.querySelector('.separation'))
+}
+
+function renderResponses(id, dpn) {
+    let listeResponses = []
+    listeMessage.forEach((message) => {
+        if (message.id === id) {
+            console.log(message)
+            listeResponses = message.responses
+
+        }
+    })
+    let messages = ''
+    listeResponses.forEach(response => {
+            messages += `
+   
+                <div class="messageResponse">
+                    <img src="${personalImage(response.author.imageNAme)}" alt="image de profil" class="imessageResponseImage" >
+                    <div class="d-flex flex-column align-items-start"> 
+                        <span>${personalUsername(response.author)} </span>
+                        <p>${response.content}</p>
+                    </div>    
+                    
+                 </div>
+          
+        `
+        }
+    )
+    console.log(messages)
+
+    renderPopover()
+    let container = document.querySelector('.paramContainerFond')
+    container.innerHTML = `  
+         <div class="responses">
+            ${messages}
+               </div>
+             <div class="messageResponseTexarea d-flex flex-row align-items-center">
+                      <textarea name="postmessage" placeholder="Write text..." id="postmessage" ></textarea>
+                   <div class=" repondreMessageBtn "><span>Repondre</span><i class="bi bi-send"></i></div>
+             </div>
+             <div onclick="run(),renderPopover()" class="paramFermer">
+                    <i class="bi bi-x-lg"></i>
+                </div>
+        
+    `
+    document.querySelector('.responses')
 
 }
 
-function renderRepondre(id,dpn){
-    document.querySelector( `.bi-chat${id}`).classList.toggle('d-none')
-    let answeringMessage =  document.querySelector('.answeringMessage')
- switchElt( document.querySelector('.repondreMessageBtn'), document.querySelector('.postmessageBtn'))
+function renderRepondre(id, dpn) {
+    document.querySelector(`.bi-chat${id}`).classList.toggle('d-none')
+    let answeringMessage = document.querySelector('.answeringMessage')
+    switchElt(document.querySelector('.repondreMessageBtn'), document.querySelector('.postmessageBtn'))
     answeringMessage.style.height = '60%'
     answeringMessage.style.top = '-60%'
-    answeringMessage.style.padding  = '10px 40px'
+    answeringMessage.style.padding = '10px 40px'
+
     answeringMessage.querySelector('.bi-x-lg').style.fontSize = '1.5em'
-    answeringMessage.innerHTML += `
-     <span>Repondre a <b>${dpn}</b></span>
+    answeringMessage.querySelector('.bi-eye').style.fontSize = '1.5em'
+    answeringMessage.querySelector('span').innerHTML = `
+     Repondre a <b>${dpn}</b>
     `
-    document.querySelector('.repondreMessageBtn').addEventListener('click',()=>{
-       let contenumessage =     document.querySelector('#postmessage').value
-        if (!isEmpty(contenumessage)){
-            sendResponse(id,contenumessage)
+
+    answeringMessage.querySelector('.bi-eye').addEventListener('click', () => {
+        renderResponses(id, dpn)
+    })
+    document.querySelector('.repondreMessageBtn').addEventListener('click', () => {
+        let contenumessage = document.querySelector('#postmessage').value
+        if (!isEmpty(contenumessage)) {
+            sendResponse(id, contenumessage)
         }
     })
 }
+
 //==============================
 function isEmpty(elt) {
     return elt === ''
@@ -290,19 +337,6 @@ function modifyMessage(id, crayon) {
 
 function addEvent() {
 
-    /*    document.querySelectorAll('.bi-pencil').forEach((crayon => {
-            crayon.addEventListener('click', () => {
-                crayon.classList.toggle('d-none')
-                const textarea = document.querySelector(`.messageContenu${crayon.id} `)
-                textarea.readOnly = false
-                textarea.classList.add('borderEdit')
-                document.querySelector(`.editmessageSubmit${crayon.id}`).classList.toggle('d-none')
-                document.querySelector(`.editmessageSubmit${crayon.id}`).addEventListener('click', () => {
-                    editMessage(crayon.id, textarea.value)
-                })
-
-            })
-        }))*/
     document.querySelector('.postmessageBtn').addEventListener('click', () => {
             if (!isEmpty(document.querySelector('#postmessage').value)) {
                 postmessage(document.querySelector('#postmessage').value)
@@ -328,8 +362,8 @@ function switchElt(elt1, elt2) {
     elt2.classList.toggle('d-none')
 }
 
-function scrollY() {
-    document.querySelector('.filDeDiscussion').scrollTo(0, document.querySelector('.filDeDiscussion').scrollHeight)
+function scrollY(elt) {
+    elt.scrollTo(0, document.querySelector('.filDeDiscussion').scrollHeight)
 }
 
 function regroupeMessage() {
@@ -346,7 +380,6 @@ function regroupeMessage() {
         }
     }
     listeMessageGroup.push(groupSameAuthor)
-    console.log(listeMessageGroup)
 
 }
 
@@ -400,6 +433,12 @@ function formaterDate(inputDate) {
     return {jour: jourFormate, heure: heureFormatee}
 }
 
+function personalUsername(profil) {
+    if (!profil.displayName) {
+        return profil.username
+    }
+    return profil.displayName
+}
 
 //============================== FETCH
 
@@ -559,7 +598,8 @@ async function sendResponse(id, contenu) {
     await fetch(`${baseUrl}api/responses/${id}/new`, params)
         .then(response => response.json())
         .then(data => {
-           run()
+            console.log(data)
+            run()
         })
 }
 
