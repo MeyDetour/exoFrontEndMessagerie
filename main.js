@@ -104,8 +104,12 @@ function renderMessages() {
         <div class="postMessageContainer">
             <textarea name="postmessage" placeholder="Write text..." id="postmessage" ></textarea>
             <div class="postmessageBtn"><span>Envoyer</span><i class="bi bi-send"></i></div>
+             <div class=" repondreMessageBtn d-none"><span>Repondre</span><i class="bi bi-send"></i></div>
             <div class="postmessageBtn" onclick="run()"><i class="bi bi-arrow-clockwise"></i></div>
-            <div class="answeringMessage"></div>
+            <div class="answeringMessage">
+               
+               <i onclick="run()" class="bi bi-x-lg"></i>
+            </div>
         </div>
     `
     render(fil)
@@ -135,7 +139,7 @@ function renderMessage(messageGroup) {
 
     if (user.id === messageGroup[0].author.id) {
         param.container = 'messageContainer1',
-            param.classes = 'messageReverse'
+       param.classes = 'messageReverse'
     }
 
 
@@ -144,11 +148,12 @@ function renderMessage(messageGroup) {
     for (let k = 0; k < messageGroup.length; k++) {
         let message = messageGroup[k]
         let id = message.id
+
         param['dateMessage'] = formaterDate(messageGroup[k].createdAt)
         param['option'] = `
                  <div class="messageIc">    
-                   <i  id="${id} "class="bi bi-chat-left-heart"></i>
-                   <i  id="${id}" class="bi bi-chat"></i>
+                   <i   id="${id} "class="bi bi-chat-left-heart"></i>
+                   <i onclick="renderRepondre(${id},'${param.dpn}')" class="bi bi-chat bi-chat${id}"></i>
                 </div>
     `
 
@@ -177,7 +182,7 @@ function renderMessage(messageGroup) {
                              <span>
                                 ${param.dateMessage.jour}
                              </span>  
-                             <span>
+                             <span class="jour">
                                  ${param.dateMessage.heure}
                              </span>  
                                 
@@ -242,6 +247,24 @@ function renderParams() {
 
 }
 
+function renderRepondre(id,dpn){
+    document.querySelector( `.bi-chat${id}`).classList.toggle('d-none')
+    let answeringMessage =  document.querySelector('.answeringMessage')
+ switchElt( document.querySelector('.repondreMessageBtn'), document.querySelector('.postmessageBtn'))
+    answeringMessage.style.height = '60%'
+    answeringMessage.style.top = '-60%'
+    answeringMessage.style.padding  = '10px 40px'
+    answeringMessage.querySelector('.bi-x-lg').style.fontSize = '1.5em'
+    answeringMessage.innerHTML += `
+     <span>Repondre a <b>${dpn}</b></span>
+    `
+    document.querySelector('.repondreMessageBtn').addEventListener('click',()=>{
+       let contenumessage =     document.querySelector('#postmessage').value
+        if (!isEmpty(contenumessage)){
+            sendResponse(id,contenumessage)
+        }
+    })
+}
 //==============================
 function isEmpty(elt) {
     return elt === ''
@@ -536,9 +559,7 @@ async function sendResponse(id, contenu) {
     await fetch(`${baseUrl}api/responses/${id}/new`, params)
         .then(response => response.json())
         .then(data => {
-            console.log(id, contenu, data)
+           run()
         })
 }
 
-//ffunc toggle ic and poptop
-//

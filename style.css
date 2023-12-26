@@ -94,33 +94,6 @@ html {
     background: var(--barHover);
 }
 
-.paramContainer {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0%;
-    filter: blur(100%);
-    background-color: rgb(3 3 3 / 57%);
-}
-
-.paramContainerFond {
-    width: 84%;
-    height: 90%;
-    border-radius: 31px;
-    position: relative;
-    background: rgba(6, 15, 38, 0.30);
-    backdrop-filter: blur(22.799999237060547px);
-    border: 3px solid #2B093B;
-}
-
-.paramFermer {
-    color: var(--simplet);
-    font-size: 1.5em;
-    position: absolute;
-    right: 4%;
-    top: 4%;
-}
 
 .navbarListePV {
     display: flex;
@@ -198,6 +171,36 @@ html {
     font-weight: 400;
     line-height: normal;
     text-wrap: nowrap;
+}
+
+/*=================== PARAMETRE ===================*/
+
+.paramContainer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0%;
+    filter: blur(100%);
+    background-color: rgb(3 3 3 / 57%);
+}
+
+.paramContainerFond {
+    width: 84%;
+    height: 90%;
+    border-radius: 31px;
+    position: relative;
+    background: rgba(6, 15, 38, 0.30);
+    backdrop-filter: blur(22.799999237060547px);
+    border: 3px solid #2B093B;
+}
+
+.paramFermer {
+    color: var(--simplet);
+    font-size: 1.5em;
+    position: absolute;
+    right: 4%;
+    top: 4%;
 }
 
 
@@ -407,7 +410,8 @@ html {
     height: 70px;
     position: absolute;
     z-index: 1;
-    border-radius: 50%;
+    top: -3.4em;
+
 }
 
 .message, .messageReverse {
@@ -445,7 +449,26 @@ html {
     margin-bottom: 58px;
 }
 
+.dateMessage{
+    color: grey;
+    font-size: .6em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    top: 20px;
+    width: 80px;
+    position: absolute;
 
+}
+.jour{
+    font-size: 1.8em !important;
+}
+.messageContainer  div  div   .dateMessage {
+    left: 0%;
+}
+.messageContainer1  div  div   .dateMessage {
+    right: 0%;
+}
 .messageReverse {
     background: #3D008C !important;
     flex-direction: row-reverse !important;
@@ -458,7 +481,7 @@ html {
 
 .messageContainer, .messageContainer1 {
     width: 100%;
-    margin-bottom: 3em;
+    margin-bottom: 4em;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -483,12 +506,12 @@ html {
 }
 
 .messageContainer > .messageImage {
-    top: -2em;
+
     left: -1.2%;
 }
 
 .messageContainer1 > .messageImage {
-    top: -2em;
+
     right: -1.2%;
 }
 
@@ -528,7 +551,7 @@ html {
 
 }
 
-.postmessageBtn {
+.postmessageBtn , .repondreMessageBtn {
     border-radius: 5px;
     gap: 17px;
     margin: 9px;
@@ -568,21 +591,20 @@ html {
     border-right: 3px solid #2C3067;
     border-left: 3px solid #2C3067;
     background: #222440;
-    height: 100%;
-    top: -100%;
+    height: 0%;
+    top: 0;
+    transition: height 1s, top 1s ;
     z-index: -1;
 
+    color: #666074;
+
 }
-.dateMessage{
-    color: grey;
-    font-size: .6em;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    top: 20px;
-    width: 80px;
+.answeringMessage .bi-x-lg{
+
+    font-size: 0em;
     position: absolute;
-    left: 1%;
+    right: 4%;
+    top: 4%;
 }
 
 
