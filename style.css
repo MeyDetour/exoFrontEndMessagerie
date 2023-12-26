@@ -11,6 +11,7 @@ html {
 :root {
     --joyeux: #A790DC;
     --prof: #3D008C;
+    --simplet : #00D1FF;
     --barHover: #59019d;
     --scrollbar: #59019d;
     --princesse: #7A65F9;
@@ -104,16 +105,17 @@ html {
 }
 
 .paramContainerFond {
-    background-color: #cbcbcb;
-    width: 80%;
-    height: 80%;
-    border-radius: 50px;
+    width: 84%;
+    height: 90%;
+    border-radius: 31px;
     position: relative;
-    box-shadow: #00000024 0px 0px 20px 20px;
+    background: rgba(6, 15, 38, 0.30);
+    backdrop-filter: blur(22.799999237060547px);
+    border: 3px solid #2B093B;
 }
 
 .paramFermer {
-    color: var(--joyeux);
+    color: var(--simplet);
     font-size: 1.5em;
     position: absolute;
     right: 4%;
@@ -138,7 +140,7 @@ html {
 }
 
 .pvBanner span {
-    color: #00D1FF;
+    color: var(--simplet);
     width: 80%;
     font-size: 36px;
     font-style: normal;
@@ -197,6 +199,59 @@ html {
     line-height: normal;
     text-wrap: nowrap;
 }
+
+
+/*=================== FORMULAIRE ===================*/
+
+.loginform, .signupform {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    justify-content: center;
+    background-color: transparent;
+    align-items: center;
+    gap: 30px;
+    height: 100%;
+    color: var(--princesse);
+}
+
+.boutonForm {
+    color: var(--joyeux);
+    border: 1.5px solid var(--joyeux);
+    position: relative;
+    background-color: transparent;
+    border-radius: 20px;
+}
+
+.loginform input, .signupform input {
+    color: var(--princesse);
+    background: transparent;
+    border: solid 2px var(--princesse);
+    outline: none;
+    padding: 0.5em;
+    border-radius: 8px;
+}
+
+.loginform h1, .signupform h1 {
+
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+#loginFormToSignUp, #signUpToLogin {
+    color: var(--princesse);
+    font-size: 0.8em;
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    text-decoration: underline;
+
+}
+
+::placeholder {
+    color: #513fa8;
+}
+
 
 /*=================== FOND DISCUSSION ===================*/
 
@@ -267,7 +322,7 @@ html {
 }
 
 .bannerIc {
-    color: #00D1FF;
+    color:  var(--simplet);
     position: absolute;
     font-size: 2em;
     right: 5%;
@@ -275,7 +330,7 @@ html {
 }
 
 .bannerTitle {
-    color: #00D1FF;
+    color:  var(--simplet);
 
     font-size: 36px;
     font-style: normal;
@@ -393,7 +448,6 @@ html {
 
 .messageReverse {
     background: #3D008C !important;
-
     flex-direction: row-reverse !important;
 }
 
@@ -448,7 +502,10 @@ html {
 
 /* Edit Messages */
 .borderEdit {
-    border: var(--princesse) 3px solid !important;
+    border: 1.5px solid var(--joyeux) !important;
+    padding: 10px;
+    background-color: #9702b30a !important;
+    border-radius: 13px;
 }
 
 /* Envoyer Messages */
@@ -501,55 +558,33 @@ html {
 
 }
 
-/*=================== FORMULAIRE ===================*/
 
-.loginform, .signupform {
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    justify-content: center;
-    background-color: transparent;
-    align-items: center;
-    gap: 30px;
+/* reponse Messages */
+.answeringMessage{
+    width: 100%;
+    position: absolute;
+    border-radius: 20px 20px 0px 0px;
+    border-top: 3px solid #2C3067;
+    border-right: 3px solid #2C3067;
+    border-left: 3px solid #2C3067;
+    background: #222440;
     height: 100%;
-    color: var(--princesse);
-}
-
-.boutonForm {
-    color: var(--princesse);
-    border: 4px solid var(--princesse);
-    position: relative;
-    box-shadow: 3px 3px 1px 0px var(--prof);
-}
-
-.loginform input, .signupform input {
-    color: var(--princesse);
-    background: transparent;
-    border: solid 2px var(--princesse);
-    outline: none;
-    padding: 0.5em;
-    border-radius: 8px;
-}
-
-.loginform h1, .signupform h1 {
-
-    font-size: 2em;
-    text-transform: uppercase;
-}
-
-#loginFormToSignUp, #signUpToLogin {
-    color: var(--princesse);
-    font-size: 0.8em;
-    border: 0;
-    background-color: transparent;
-    outline: none;
-    text-decoration: underline;
+    top: -100%;
+    z-index: -1;
 
 }
-
-::placeholder {
-    color: #513fa8;
+.dateMessage{
+    color: grey;
+    font-size: .6em;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    top: 20px;
+    width: 80px;
+    position: absolute;
+    left: 1%;
 }
+
 
 /*=================== Discussion ===================*/
 

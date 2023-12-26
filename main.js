@@ -76,15 +76,12 @@ function renderForm() {
 
 function renderMessages() {
     let allMessages = ''
-
     if (listeMessage.length !== 0) {
         regroupeMessage()
-        console.log(listeMessageGroup)
         listeMessageGroup.forEach(messageGroup => {
             allMessages += renderMessage(messageGroup)
         })
     }
-
 
     let fil = `
          <div class="filDeDiscussion">
@@ -108,6 +105,7 @@ function renderMessages() {
             <textarea name="postmessage" placeholder="Write text..." id="postmessage" ></textarea>
             <div class="postmessageBtn"><span>Envoyer</span><i class="bi bi-send"></i></div>
             <div class="postmessageBtn" onclick="run()"><i class="bi bi-arrow-clockwise"></i></div>
+            <div class="answeringMessage"></div>
         </div>
     `
     render(fil)
@@ -125,28 +123,28 @@ function renderMessage(messageGroup) {
 
     let param = {
         container: 'messageContainer',
-
+        classes: 'message',
         dpn: messageGroup[0].author.displayName,
 
     }
+
 
     if (!messageGroup[0].author.displayName) {
         param.dpn = messageGroup[0].author.username
     }
 
     if (user.id === messageGroup[0].author.id) {
-        param.container = 'messageContainer1'
+        param.container = 'messageContainer1',
+            param.classes = 'messageReverse'
     }
 
 
     let classeMessage = ''
     let messagesRegrouper = ''
     for (let k = 0; k < messageGroup.length; k++) {
-
-
         let message = messageGroup[k]
         let id = message.id
-
+        param['dateMessage'] = formaterDate(messageGroup[k].createdAt)
         param['option'] = `
                  <div class="messageIc">    
                    <i  id="${id} "class="bi bi-chat-left-heart"></i>
@@ -157,25 +155,34 @@ function renderMessage(messageGroup) {
         if (user.id === messageGroup[0].author.id) {
             param.option = `
                 <div class="messageIc" ">
-                     <i id="${id}" class="bi bi-pencil"></i>
-                 <i id="${id}" class="bi bi-trash3"></i>
+                      <i onclick="modifyMessage(${id})" class="bi bi-pencil bi-pencil${id}"></i>
+                      <i onclick="supprimer(${id})" class="bi bi-trash3"></i>
                 </div>
     `
 
         }
         if (messageGroup.length === 1) {
             classeMessage = ' '
-        }
-        else if (k === 0) {
+        } else if (k === 0) {
             classeMessage = ' messageStart'
-        }   else if (messageGroup.length - 1 === k) {
+        } else if (messageGroup.length - 1 === k) {
             classeMessage = ' messageEnd'
         } else {
             classeMessage = ' messageMiddle'
         }
         let template = `
-                         <div class=" message ${classeMessage}" id="message${id}">
+                         <div class="${param.classes} ${classeMessage}" id="message${id}">
                             ${param.option}
+                            <div class="dateMessage">
+                             <span>
+                                ${param.dateMessage.jour}
+                             </span>  
+                             <span>
+                                 ${param.dateMessage.heure}
+                             </span>  
+                                
+                            </div>
+                         
                             <div class="w-100 h-100">
                                 <div class="w-100 d-flex flex-row align-items-top">
                                     <textarea readonly class="messageContenu${id}" name="messageContenu" id="messageContenu" >${message.content}</textarea>
@@ -187,9 +194,10 @@ function renderMessage(messageGroup) {
     `
         messagesRegrouper += template
     }
+
     let templateCntainer = `
         <div class="${param.container}">
-             <img src="${user.imageUrl}" alt="Image de profil" class="messageImage">
+            <img src="${personalImage(messageGroup[0].author.image)}" alt="Image de profil" class="messageImage">
             <div class="messageAuteurOption">
                  <span class="messageAuteur">${param.dpn}</span>    
                
@@ -204,8 +212,7 @@ function renderMessage(messageGroup) {
     return templateCntainer
 
 
-}//le probleme est que le container prend trois message ensemble sauf que la bnoucle foreach demande trop de fois de creer ce meme container donc trois message trois container de trois messages vont etre creer
-
+}
 
 function renderInterface() {
     navbar.innerHTML = `
@@ -213,8 +220,8 @@ function renderInterface() {
       <div class="navbarListePV">
             <div class="pvBanner">
             <span>Chats</span>
-              <div onclick="toggleParam()" class= " centered">
-                    <img src="images/defaultimg.png" alt="" class="navbarParamImage">
+              <div onclick="renderParams()" class= " centered">
+                    <img src="${personalImage(user.image)}" alt="" class="navbarParamImage">
                </div>
             </div>
             <button class="pvContact">
@@ -227,12 +234,12 @@ function renderInterface() {
             </button>
          
         </div>
-  
     `
 }
 
-function toggleParam() {
-    document.querySelector('.paramContainer').classList.toggle('d-none')
+function renderParams() {
+    switchElt(document.querySelector('.paramContainer'), document.querySelector('.separation'))
+
 }
 
 //==============================
@@ -240,27 +247,39 @@ function isEmpty(elt) {
     return elt === ''
 }
 
-function addEvent() {
+function modifyMessage(id, crayon) {
 
-    document.querySelectorAll('.bi-trash3').forEach((poubelle) => {
-        poubelle.addEventListener('click', () => {
-            supprimer(poubelle.id)
-        })
+    document.querySelector(`.bi-pencil${id}`).classList.toggle('d-none')
+    const textarea = document.querySelector(`.messageContenu${id}`)
+    const bouton = document.querySelector(`.editmessageSubmit${id}`)
+    console.log(textarea, bouton)
+
+    textarea.readOnly = false
+    textarea.classList.add('borderEdit')
+
+
+    bouton.classList.toggle('d-none')
+    bouton.addEventListener('click', () => {
+        editMessage(id, textarea.value)
 
     })
-    document.querySelectorAll('.bi-pencil').forEach((crayon => {
-        crayon.addEventListener('click', () => {
-            const textarea = document.querySelector(`.messageContenu${crayon.id} `)
-            textarea.readOnly = false
-            console.log(textarea)
-            textarea.classList.add('borderEdit')
-            document.querySelector(`.editmessageSubmit${crayon.id}`).classList.toggle('d-none')
-            document.querySelector(`.editmessageSubmit${crayon.id}`).addEventListener('click', () => {
-                editMessage(crayon.id, textarea.value)
-            })
+}
 
-        })
-    }))
+function addEvent() {
+
+    /*    document.querySelectorAll('.bi-pencil').forEach((crayon => {
+            crayon.addEventListener('click', () => {
+                crayon.classList.toggle('d-none')
+                const textarea = document.querySelector(`.messageContenu${crayon.id} `)
+                textarea.readOnly = false
+                textarea.classList.add('borderEdit')
+                document.querySelector(`.editmessageSubmit${crayon.id}`).classList.toggle('d-none')
+                document.querySelector(`.editmessageSubmit${crayon.id}`).addEventListener('click', () => {
+                    editMessage(crayon.id, textarea.value)
+                })
+
+            })
+        }))*/
     document.querySelector('.postmessageBtn').addEventListener('click', () => {
             if (!isEmpty(document.querySelector('#postmessage').value)) {
                 postmessage(document.querySelector('#postmessage').value)
@@ -291,6 +310,7 @@ function scrollY() {
 }
 
 function regroupeMessage() {
+    listeMessageGroup = []
     let groupSameAuthor = [listeMessage[0]]
     for (let k = 1; k < listeMessage.length; k++) {
         let id_current_mess = listeMessage[k].author.id
@@ -305,6 +325,56 @@ function regroupeMessage() {
     listeMessageGroup.push(groupSameAuthor)
     console.log(listeMessageGroup)
 
+}
+
+function personalImage(image) {
+
+    if (!image) {
+        return 'images/defaultimg.png'
+    }
+    return `https://b1messenger.imatrythis.com/media/cache/avatar/images/profilepics/${image.imageName}`
+
+}
+
+function formaterDate(inputDate) {
+    const date = new Date(inputDate)
+
+    // Obtenir le jour du mois
+    const jour = date.getDate()
+
+    // Tableau des noms des mois
+    const moisNoms = [
+        "janv.",
+        "févr.",
+        "mars",
+        "avr.",
+        "mai",
+        "juin",
+        "juil.",
+        "août",
+        "sept.",
+        "oct.",
+        "nov.",
+        "déc."
+    ]
+
+    // Obtenir le mois sous forme de texte abrégé
+    const mois = moisNoms[date.getMonth()]
+
+    // Obtenir l'année
+    const annee = date.getFullYear()
+
+    // Obtenir l'heure
+    const heures = ('0' + date.getHours()).slice(-2)
+
+    // Obtenir les minutes
+    const minutes = ('0' + date.getMinutes()).slice(-2)
+
+    // Construire les variables jour et heure
+    const jourFormate = `${jour} ${mois} ${annee}`
+    const heureFormatee = `${heures}h${minutes}`
+
+    return {jour: jourFormate, heure: heureFormatee}
 }
 
 
@@ -364,7 +434,7 @@ async function getMessage() {
         })
 }
 
-async function sendReact(contenu) {
+async function sendResponse(contenu) {
     let param = {
         method: 'post',
         headers: {
@@ -452,4 +522,23 @@ async function editMessage(id, contenu) {
         })
 }
 
+async function sendResponse(id, contenu) {
+    const params = {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `bearer ${token}`
+        },
+        body: JSON.stringify({
+            content: contenu
+        })
+    }
+    await fetch(`${baseUrl}api/responses/${id}/new`, params)
+        .then(response => response.json())
+        .then(data => {
+            console.log(id, contenu, data)
+        })
+}
 
+//ffunc toggle ic and poptop
+//
