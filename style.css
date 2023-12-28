@@ -11,7 +11,7 @@ html {
 :root {
     --joyeux: #A790DC;
     --prof: #3D008C;
-    --simplet : #00D1FF;
+    --simplet: #00D1FF;
     --barHover: #59019d;
     --scrollbar: #59019d;
     --princesse: #7A65F9;
@@ -325,7 +325,7 @@ html {
 }
 
 .bannerIc {
-    color:  var(--simplet);
+    color: var(--simplet);
     position: absolute;
     font-size: 2em;
     right: 5%;
@@ -333,7 +333,7 @@ html {
 }
 
 .bannerTitle {
-    color:  var(--simplet);
+    color: var(--simplet);
 
     font-size: 36px;
     font-style: normal;
@@ -419,37 +419,43 @@ html {
     border-radius: 21px;
     background: #1E1E34;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     color: var(--joyeux);
     font-size: 1em;
-    padding: 20px 76px;
+    padding: 20px 30px 20px 76px;
     position: relative;
     overflow: hidden;
     gap: 20px;
     margin-bottom: 10px;
 }
+
 .messageContainer1 > div > .messageStart {
     border-radius: 21px 21px 4px 21px !important;
 }
+
 .messageContainer1 > div > .messageMiddle {
     border-radius: 21px 4px 4px 21px !important;
 }
+
 .messageContainer1 > div > .messageEnd {
-     border-radius: 21px 4px 21px 21px !important;
+    border-radius: 21px 4px 21px 21px !important;
     margin-bottom: 58px;
- }
+}
+
 .messageContainer > div > .messageStart {
     border-radius: 21px 21px 21px 4px !important;
 }
+
 .messageContainer > div > .messageMiddle {
     border-radius: 4px 21px 21px 4px !important;
 }
+
 .messageContainer > div > .messageEnd {
     border-radius: 4px 21px 21px 21px !important;
     margin-bottom: 58px;
 }
 
-.dateMessage{
+.dateMessage {
     color: grey;
     font-size: .6em;
     display: flex;
@@ -460,18 +466,23 @@ html {
     position: absolute;
 
 }
-.jour{
+
+.jour {
     font-size: 1.8em !important;
 }
-.messageContainer  div  div   .dateMessage {
+
+.messageContainer div div .dateMessage {
     left: 0%;
 }
-.messageContainer1  div  div   .dateMessage {
+
+.messageContainer1 div div .dateMessage {
     right: 0%;
 }
+
 .messageReverse {
     background: #3D008C !important;
-    flex-direction: row-reverse !important;
+    padding: 20px 79px 20px 56px !important;
+
 }
 
 .messageReverse div div #messageContenu {
@@ -481,7 +492,7 @@ html {
 
 .messageContainer, .messageContainer1 {
     width: 100%;
-    margin-top : 4em;
+    margin-top: 4em;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -515,12 +526,12 @@ html {
     right: -1.2%;
 }
 
-.messageContainer > div > div> .messageIc {
+.messageContainer > div > div > .messageIc {
     right: 2%;
 
 }
 
-.messageContainer1 > div > div> .messageIc {
+.messageContainer1 > div > div > .messageIc {
     left: 2%;
     color: var(--joyeux) !important;
 }
@@ -541,6 +552,7 @@ html {
     height: 88%;
     overflow-y: auto;
 }
+
 .postMessageContainer {
     height: 8%;
     justify-content: space-around;
@@ -559,7 +571,7 @@ html {
 
 }
 
-.postmessageBtn , .repondreMessageBtn {
+.postmessageBtn, .repondreMessageBtn {
     border-radius: 5px;
     gap: 17px;
     margin: 9px;
@@ -588,19 +600,60 @@ html {
     color: var(--princesse);
 
 }
-.messageResponseTexarea{
+
+.messageResponseTexarea {
     position: absolute;
     bottom: 0%;
     width: 100%;
     border-top: 3px solid var(--princesse);
 }
-.messageResponseTexarea textarea{
+
+.messageResponseTexarea textarea {
     padding: 5px 20px;
 }
 
 
 /* reponse Messages */
-.answeringMessage{
+.message .messageReponse {
+    background: #24243B !important;
+    border: 1px solid #423C5A !important;
+    box-shadow: 6px 6px 4px 0px rgba(0, 0, 0, 0.25) inset !important;
+}
+
+.message .messageReponse span {
+    color: #9A96A1 !important;
+}
+
+.message .messageReponse p {
+    color: #666074 !important;
+}
+
+.messageReponse {
+    border-radius: 25px;
+    border: 1px solid #4A2697;
+    background: #521AAF;
+    padding: 13px 24px !important;
+    font-size: 1em;
+    box-shadow: 6px 6px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.messageReponse span {
+    color: #898593;
+    margin-bottom: 10px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.messageReponse p {
+    color: #755EA8;
+
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.answeringMessage {
     width: 100%;
     position: absolute;
     border-radius: 20px 20px 0px 0px;
@@ -610,13 +663,14 @@ html {
     background: #222440;
     height: 0%;
     top: 0;
-    transition: height 1s, top 1s ;
+    transition: height 1s, top 1s;
     z-index: -1;
 
     color: #666074;
 
 }
-.answeringMessage div{
+
+.answeringMessage div {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -625,10 +679,12 @@ html {
     top: 9%;
     gap: 10px;
 }
-.answeringMessage div .bi-x-lg , .answeringMessage div .bi-eye{
+
+.answeringMessage div .bi-x-lg, .answeringMessage div .bi-eye {
     font-size: 0em;
 }
-.messageResponse{
+
+.messageResponse {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -636,19 +692,23 @@ html {
     gap: 23px;
     border-bottom: 3px solid #1a0b3b;
 }
-.imessageResponseImage{
+
+.imessageResponseImage {
     width: 44px;
     height: 44px;
 }
-.messageResponse div span{
+
+.messageResponse div span {
     color: var(--joyeux);
     font-size: 1.5em;
     font-weight: 700;
 }
-.messageResponse div p{
+
+.messageResponse div p {
     color: var(--princesse);
     font-size: .8em;
 }
+
 /*=================== Discussion ===================*/
 
 @media only screen and (max-width: 800px) {

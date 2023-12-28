@@ -2,6 +2,7 @@ let token = null
 let content = document.querySelector('.contenuDePage')
 let baseUrl = 'https://b1messenger.imatrythis.com/'
 let listeMessage = null
+
 let listeMessageGroup = []
 let user = null
 let navbar = document.querySelector('.navbar')
@@ -129,6 +130,7 @@ function renderMessage(messageGroup) {
     let param = {
         container: 'messageContainer',
         classes: 'message',
+
         dpn: personalUsername(messageGroup[0].author)
 
     }
@@ -143,7 +145,7 @@ function renderMessage(messageGroup) {
     for (let k = 0; k < messageGroup.length; k++) {
         let message = messageGroup[k]
         let id = message.id
-
+        param['responseTo'] = ''
         param['dateMessage'] = formaterDate(messageGroup[k].createdAt)
         param['option'] = `
                  <div class="messageIc">    
@@ -161,6 +163,13 @@ function renderMessage(messageGroup) {
     `
 
         }
+
+        if (message.hasOwnProperty('responseTo')) {
+            console.log(message.responseTo)
+            console.log(param.responseTo)
+            param.responseTo = responseTo(message.responseTo)
+            param.option = ''
+        }
         if (messageGroup.length === 1) {
             classeMessage = ' '
         } else if (k === 0) {
@@ -170,6 +179,7 @@ function renderMessage(messageGroup) {
         } else {
             classeMessage = ' messageMiddle'
         }
+
         let template = `
                          <div class="${param.classes} ${classeMessage}" id="message${id}">
                             ${param.option}
@@ -178,11 +188,10 @@ function renderMessage(messageGroup) {
                                 ${param.dateMessage.jour}
                              </span>  
                              <span class="jour">
-                                 ${param.dateMessage.heure}
+                             ${param.dateMessage.heure}
                              </span>  
-                                
                             </div>
-                         
+                            ${param.responseTo}
                             <div class="w-100 h-100">
                                 <div class="w-100 d-flex flex-row align-items-top">
                                     <textarea readonly class="messageContenu${id}" name="messageContenu" id="messageContenu" >${message.content}</textarea>
@@ -204,11 +213,9 @@ function renderMessage(messageGroup) {
             </div> 
             <div class="d-flex flex-column align-items-start">
                ${messagesRegrouper}
-            </div>
-         
+            </div>      
         </div>
 `
-
     return templateCntainer
 
 
@@ -241,52 +248,6 @@ function renderPopover() {
     switchElt(document.querySelector('.paramContainer'), document.querySelector('.separation'))
 }
 
-function renderResponses(id, dpn) {
-    let listeResponses = []
-    listeMessage.forEach((message) => {
-        if (message.id === id) {
-            console.log(message)
-            listeResponses = message.responses
-
-        }
-    })
-    let messages = ''
-    listeResponses.forEach(response => {
-            messages += `
-   
-                <div class="messageResponse">
-                    <img src="${personalImage(response.author.imageNAme)}" alt="image de profil" class="imessageResponseImage" >
-                    <div class="d-flex flex-column align-items-start"> 
-                        <span>${personalUsername(response.author)} </span>
-                        <p>${response.content}</p>
-                    </div>    
-                    
-                 </div>
-          
-        `
-        }
-    )
-    console.log(messages)
-
-    renderPopover()
-    let container = document.querySelector('.paramContainerFond')
-    container.innerHTML = `  
-         <div class="responses">
-            ${messages}
-               </div>
-             <div class="messageResponseTexarea d-flex flex-row align-items-center">
-                      <textarea name="postmessage" placeholder="Write text..." id="postmessage" ></textarea>
-                   <div class=" repondreMessageBtn "><span>Repondre</span><i class="bi bi-send"></i></div>
-             </div>
-             <div onclick="run(),renderPopover()" class="paramFermer">
-                    <i class="bi bi-x-lg"></i>
-                </div>
-        
-    `
-    document.querySelector('.responses')
-
-}
-
 function renderRepondre(id, dpn) {
     document.querySelector(`.bi-chat${id}`).classList.toggle('d-none')
     let answeringMessage = document.querySelector('.answeringMessage')
@@ -296,14 +257,11 @@ function renderRepondre(id, dpn) {
     answeringMessage.style.padding = '10px 40px'
 
     answeringMessage.querySelector('.bi-x-lg').style.fontSize = '1.5em'
-    answeringMessage.querySelector('.bi-eye').style.fontSize = '1.5em'
     answeringMessage.querySelector('span').innerHTML = `
      Repondre a <b>${dpn}</b>
     `
 
-    answeringMessage.querySelector('.bi-eye').addEventListener('click', () => {
-        renderResponses(id, dpn)
-    })
+
     document.querySelector('.repondreMessageBtn').addEventListener('click', () => {
         let contenumessage = document.querySelector('#postmessage').value
         if (!isEmpty(contenumessage)) {
@@ -366,22 +324,65 @@ function scrollY(elt) {
     elt.scrollTo(0, document.querySelector('.filDeDiscussion').scrollHeight)
 }
 
-function regroupeMessage() {
-    listeMessageGroup = []
-    let groupSameAuthor = [listeMessage[0]]
-    for (let k = 1; k < listeMessage.length; k++) {
-        let id_current_mess = listeMessage[k].author.id
+function sortByDate(liste) {
+    return liste.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return dateA - dateB;
+    });
 
-        if (listeMessage[k - 1].author.id === id_current_mess) {
-            groupSameAuthor.push(listeMessage[k])
+}
+
+function responseTo(id) {
+    let template = ''
+        listeMessage.forEach(message => {
+        if (id === message.id) {
+
+           template = `
+             <div class=" messageReponse d-flex flex-column align-items-start p-2">
+            <span>${message.author.username} says :</span>
+      
+            <p>${message.content}</p>
+            </div>
+            `
+
+        }
+
+    })
+    return template
+
+}
+
+function regroupeMessage() {
+    let listeSortedDate = []
+    listeMessage.forEach(message => {
+        listeSortedDate.push(message)
+        let reponses = message.responses
+        if (reponses.length !== 0) {
+            reponses.forEach(messageReponse => {
+                messageReponse['responseTo'] = message.id
+                listeSortedDate.push(messageReponse)
+            })
+        }
+
+    })
+    sortByDate(listeSortedDate)
+
+    listeMessageGroup = []
+    let groupSameAuthor = [listeSortedDate[0]]
+    for (let k = 1; k < listeSortedDate.length; k++) {
+        let id_current_mess = listeSortedDate[k].author.id
+        if (listeSortedDate[k - 1].author.id === id_current_mess) {
+            groupSameAuthor.push(listeSortedDate[k])
         } else {
             listeMessageGroup.push(groupSameAuthor)
-            groupSameAuthor = [listeMessage[k]]
+            groupSameAuthor = [listeSortedDate[k]]
         }
     }
     listeMessageGroup.push(groupSameAuthor)
-
+    console.log(listeMessageGroup)
 }
+
 
 function personalImage(image) {
 
