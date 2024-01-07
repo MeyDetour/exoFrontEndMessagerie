@@ -164,20 +164,21 @@ function renderMessage(messageGroup) {
 
         }
 
+
+            if (messageGroup.length === 1) {
+                classeMessage = ''
+            } else if (k === 0) {
+                classeMessage = ' messageStart'
+            } else if (messageGroup.length - 1 === k) {
+                classeMessage = ' messageEnd'
+            } else {
+                classeMessage = ' messageMiddle'
+            }
+
         if (message.hasOwnProperty('responseTo')) {
-            console.log(message.responseTo)
-            console.log(param.responseTo)
             param.responseTo = responseTo(message.responseTo)
             param.option = ''
-        }
-        if (messageGroup.length === 1) {
-            classeMessage = ' '
-        } else if (k === 0) {
-            classeMessage = ' messageStart'
-        } else if (messageGroup.length - 1 === k) {
-            classeMessage = ' messageEnd'
-        } else {
-            classeMessage = ' messageMiddle'
+            classeMessage += ' messageReponseContainer'
         }
 
         let template = `
