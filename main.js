@@ -130,14 +130,17 @@ function renderMessage(messageGroup) {
     let param = {
         container: 'messageContainer',
         classes: 'message',
-
+align :'align-items-start',
         dpn: personalUsername(messageGroup[0].author)
 
     }
     if (user.id === messageGroup[0].author.id) {
         param.container = 'messageContainer1',
             param.classes = 'messageReverse'
+        param.align='align-items-end'
     }
+
+
 
 
     let classeMessage = ''
@@ -193,8 +196,8 @@ function renderMessage(messageGroup) {
                              </span>  
                             </div>
                             ${param.responseTo}
-                            <div class="w-100 h-100">
-                                <div class="w-100 d-flex flex-row align-items-top">
+                            <div class="">
+                                <div class=" d-flex flex-row align-items-top">
                                     <textarea readonly class="messageContenu${id}" name="messageContenu" id="messageContenu" >${message.content}</textarea>
                                     <button type="submit" class="d-none boutonForm editmessageSubmit${id}"> Modifier </button>
                                 </div>
@@ -212,11 +215,12 @@ function renderMessage(messageGroup) {
                  <span class="messageAuteur">${param.dpn}</span>    
                
             </div> 
-            <div class="d-flex flex-column align-items-start">
+            <div class="d-flex flex-column ${param.align}">
                ${messagesRegrouper}
             </div>      
         </div>
 `
+
     return templateCntainer
 
 
@@ -312,6 +316,24 @@ function addEvent() {
 
         })
     })
+
+    document.querySelectorAll('#messageContenu').forEach(message=>{
+        textAreaAdjust(message)
+    })
+
+}
+
+function textAreaAdjust(element) {
+    let tempElement = document.createElement('div');
+    tempElement.style.whiteSpace = 'pre-wrap';
+    tempElement.style.width = 'fit-content';
+    tempElement.textContent = element.value;
+
+    document.body.appendChild(tempElement);
+    let width = tempElement.clientWidth;
+    document.body.removeChild(tempElement);
+
+    element.style.width = 40 + width + 'px';
 
 
 }

@@ -361,13 +361,15 @@ html {
 
 /* Messages */
 #messageContenu {
-    width: 90%;
+    width: fit-content;
     border: 0;
+    max-width: 700px;
     background-color: transparent;
     outline: none;
     resize: none;
     color: #666074;
-    font-size: 18px;
+overflow: hidden;
+
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -415,7 +417,8 @@ html {
 }
 
 .message, .messageReverse {
-    width: clamp(50% , 730px , 730px);
+    width: fit-content  ;
+
     padding: 20px 17px 20px 17px;
     border-radius: 21px;
     background: #1E1E34;
@@ -428,23 +431,26 @@ html {
     gap: 20px;
     margin-bottom: 10px;
 }
+.messageContainer1 > div > .messageStart {
 
+    padding: 20px 17px 20px 34px;
+}
 .messageReponseContainer{
     padding: 20px 17px 20px 17px !important;
 }
 .messageContainer1 > div > .messageStart {
     border-radius: 21px 21px 4px 21px !important;
-    padding: 20px 56px 20px 20px;
+    padding: 20px 56px 20px 34px;
 }
 
 .messageContainer1 > div > .messageMiddle {
-    border-radius: 21px 4px 4px 21px ;
-    padding: 20px 17px 20px 17px !important;
+    border-radius: 21px 4px 4px 34px ;
+    padding: 20px 17px 20px 34px !important;
 
 }
 
 .messageContainer1 > div > .messageEnd {
-    border-radius: 21px 4px 21px 21px !important;
+    border-radius: 21px 4px 21px 34px !important;
     margin-bottom: 58px;
 }
 
@@ -472,7 +478,7 @@ html {
 .dateMessage {
     color: grey;
     bottom: 1%;
-    right: 2%;
+    right: 14%;
     font-size: .6em;
     display: flex;
     align-items: center;
@@ -529,12 +535,12 @@ html {
 }
 
 .messageContainer > div > div > .messageIc {
-    right: 2%;
+    right: 6%;
 
 }
 
 .messageContainer1 > div > div > .messageIc {
-    left: 2%;
+    left: 6%;
     color: var(--joyeux) !important;
 }
 
@@ -632,6 +638,7 @@ html {
 
 .messageReponse {
     border-radius: 25px;
+    width: 100%;
     border: 1px solid #4A2697;
     background: #521AAF;
     padding: 13px 24px !important;
